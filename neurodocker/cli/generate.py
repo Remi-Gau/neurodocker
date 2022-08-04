@@ -120,7 +120,7 @@ class OptionEatAll(click.Option):
 
     def __init__(self, *args, **kwargs):
         nargs = kwargs.pop("nargs", -1)
-        assert nargs == -1, "nargs, if set, must be -1 not {}".format(nargs)
+        assert nargs == -1, f"nargs, if set, must be -1 not {nargs}"
         super(OptionEatAll, self).__init__(*args, **kwargs)
         self._previous_parser_process = None
         self._eat_all_parser = None
@@ -172,17 +172,16 @@ class KeyValuePair(click.ParamType):
             return k, v
 
         # This might be a tuple or a list if using OptionEatAll.
-        if isinstance(value, (list, tuple)):
-            return tuple(map(fn, value))
-        else:
-            return fn(value)
+        return tuple(map(fn, value)) if isinstance(value, (list, tuple)) else fn(value)
 
 
 def _get_common_renderer_params() -> ty.List[click.Parameter]:
-    params: ty.List[click.Parameter] = [
+    return [
         click.Option(
             ["-p", "--pkg-manager"],
-            type=click.Choice(list(allowed_pkg_managers), case_sensitive=False),
+            type=click.Choice(
+                list(allowed_pkg_managers), case_sensitive=False
+            ),
             required=True,
             multiple=False,
             help="System package manager",
@@ -238,8 +237,12 @@ def _get_common_renderer_params() -> ty.List[click.Parameter]:
             multiple=True,
             help="Switch to a different user (create user if it does not exist)",
         ),
-        click.Option(["--workdir"], multiple=True, help="Set the working directory"),
-        click.Option(["--yes"], is_flag=True, help="Reply yes to all prompts."),
+        click.Option(
+            ["--workdir"], multiple=True, help="Set the working directory"
+        ),
+        click.Option(
+            ["--yes"], is_flag=True, help="Reply yes to all prompts."
+        ),
         click.Option(
             ["--json"],
             is_flag=True,
@@ -249,7 +252,6 @@ def _get_common_renderer_params() -> ty.List[click.Parameter]:
             ),
         ),
     ]
-    return params
 
 
 def _create_help_for_template(template: Template) -> str:
@@ -315,28 +317,20 @@ def _get_instruction_for_param(
     d = None
     if param.name == "from_":
         d = {"name": param.name, "kwds": {"base_image": value}}
-    # arg
     elif param.name == "arg":
         assert len(value) == 2, "expected key=value pair for --arg"
         k, v = value
         d = {"name": param.name, "kwds": {"key": k, "value": v}}
-    # copy
     elif param.name == "copy":
         assert len(value) > 1, "expected at least two values for --copy"
         source, destination = list(value[:-1]), value[-1]
         d = {"name": param.name, "kwds": {"source": source, "destination": destination}}
-    # env
     elif param.name == "env":
         value = dict(value)
         d = {"name": param.name, "kwds": {**value}}
-    # entrypoint
     elif param.name == "entrypoint":
-        if isinstance(value, str):
-            value = [value]
-        else:
-            value = list(value)
+        value = [value] if isinstance(value, str) else list(value)
         d = {"name": param.name, "kwds": {"args": value}}
-    # install
     elif param.name == "install":
         opts = None
         if isinstance(value, tuple):
@@ -349,23 +343,17 @@ def _get_instruction_for_param(
         if not value:
             ctx.fail("no packages provided to install")
         d = {"name": param.name, "kwds": {"pkgs": value, "opts": opts}}
-    # label
     elif param.name == "label":
         value = dict(value)
         d = {"name": param.name, "kwds": {**value}}
-    # run
     elif param.name == "run":
         d = {"name": param.name, "kwds": {"command": value}}
-    # run_bash
     elif param.name == "run_bash":
         d = {"name": param.name, "kwds": {"command": value}}
-    # user
     elif param.name == "user":
         d = {"name": param.name, "kwds": {"user": value}}
-    # workdir
     elif param.name == "workdir":
         d = {"name": param.name, "kwds": {"path": value}}
-    # probably a registered template?
     else:
         # We need the parameter name... so if it's None, let's panic.
         if param.name is None:
@@ -377,18 +365,12 @@ def _get_instruction_for_param(
             # If the template has an alert, prompt the user for confirmation.
             tmpl = Template(get_template(tmpl_name))
             if tmpl.alert:
-                # If user provides --yes flag, print message but do not ask for
-                # confirmation.
-                yes = ctx.params.get("yes")
-                if yes:
+                if yes := ctx.params.get("yes"):
                     click.secho(tmpl.alert, fg="yellow", err=True)
                 else:
                     # TODO: add color to this to make it visible, perhaps yellow. But
                     # there is no color option in `click.confirm`.
                     click.confirm(f"{tmpl.alert} Proceed?", abort=True, err=True)
-        else:
-            # TODO: should we do anything special with unknown options? Probably log it.
-            pass
     return d
 
 
@@ -407,16 +389,7 @@ def _base_generate(
     renderer_dict = _params_to_renderer_dict(ctx=ctx, pkg_manager=pkg_manager)
     r = renderer.from_dict(renderer_dict)
 
-    # Print the instructions in JSON if that's what the user wants.
-    # We get the JSON instructions from the renderer itself -- rather than the
-    # `renderer_dict` -- because the renderer instructions containers (mostly)
-    # reproducible commands. A user might pass `--fsl version=6.0.4`, and the JSON will
-    # include the commands associated with that version of FSL. If we had printed the
-    # `renderer_dict`, then the dictionary would include `fsl` and version 6.0.4, but
-    # the behavior of that installation could change if there is a change in the
-    # template for FSL in neurodocker.
-    json = kwds.get("json", False)
-    if json:
+    if json := kwds.get("json", False):
         click.echo(r.to_json())
         ctx.exit(0)
 

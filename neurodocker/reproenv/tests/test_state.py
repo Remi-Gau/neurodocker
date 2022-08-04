@@ -269,7 +269,7 @@ def test_register(tmp_path: Path):
     _TemplateRegistry._reset()
     _TemplateRegistry.register(_one_test_template, name=name)
     assert _TemplateRegistry._templates[name] == _one_test_template
-    assert not _TemplateRegistry._templates[name] is _one_test_template
+    assert _TemplateRegistry._templates[name] is not _one_test_template
     assert _TemplateRegistry.get(name) == _one_test_template
     assert _TemplateRegistry.get(name.upper()) == _one_test_template
     with pytest.raises(exceptions.TemplateNotFound):
@@ -287,7 +287,7 @@ def test_register(tmp_path: Path):
     _TemplateRegistry._reset()
     _TemplateRegistry.register(yaml_path)
     assert _TemplateRegistry._templates[name] == _one_test_template
-    assert not _TemplateRegistry._templates[name] is _one_test_template
+    assert _TemplateRegistry._templates[name] is not _one_test_template
     assert _TemplateRegistry.get(name) == _one_test_template
     assert _TemplateRegistry.get(name.upper()) == _one_test_template
 
@@ -296,7 +296,7 @@ def test_register(tmp_path: Path):
     _TemplateRegistry._reset()
     _TemplateRegistry.register(yaml_path, name=name)
     assert _TemplateRegistry._templates[name] == _one_test_template
-    assert not _TemplateRegistry._templates[name] is _one_test_template
+    assert _TemplateRegistry._templates[name] is not _one_test_template
     assert _TemplateRegistry.get(name) == _one_test_template
     assert _TemplateRegistry.get(name.upper()) == _one_test_template
     with pytest.raises(exceptions.TemplateNotFound):

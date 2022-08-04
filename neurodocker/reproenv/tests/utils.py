@@ -63,7 +63,7 @@ def build_docker_image(context: Path, remove=False) -> ty.Generator[str, None, N
     df = context / "Dockerfile"
     if not df.exists():
         raise FileNotFoundError(f"Dockerfile not found: {df}")
-    tag = "reproenv-pytest-" + uuid.uuid4().hex
+    tag = f"reproenv-pytest-{uuid.uuid4().hex}"
     cmd: ty.List[str] = ["docker", "build", "--tag", tag, str(context)]
     try:
         _ = subprocess.check_output(cmd, cwd=context)
@@ -114,10 +114,8 @@ def build_singularity_image(
         yield str(sif)
     finally:
         if remove:
-            try:
+            with contextlib.suppress(FileNotFoundError):
                 sif.unlink()
-            except FileNotFoundError:
-                pass
 
 
 def run_docker_image(

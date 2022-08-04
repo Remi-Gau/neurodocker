@@ -10,10 +10,11 @@ import yaml
 
 
 def _in_docker() -> bool:
-    if not Path("/proc/1/cgroup").is_file():
-        return False
-    # TODO: this is not a long-term solution.
-    return Path("/.dockerenv").is_file()
+    return (
+        Path("/.dockerenv").is_file()
+        if Path("/proc/1/cgroup").is_file()
+        else False
+    )
 
 
 def main(

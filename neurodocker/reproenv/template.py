@@ -127,9 +127,7 @@ class _BaseInstallationTemplate:
         """Raise `TemplateKeywordArgumentError` if keyword arguments to template are
         invalid.
         """
-        # Check that all required keywords were provided by user.
-        req_keys_not_found = self.required_arguments.difference(self._kwds)
-        if req_keys_not_found:
+        if req_keys_not_found := self.required_arguments.difference(self._kwds):
             raise TemplateKeywordArgumentError(
                 "Missing required arguments: '{}'.".format(
                     "', '".join(req_keys_not_found)
@@ -138,8 +136,7 @@ class _BaseInstallationTemplate:
 
         # Check that unknown kwargs were not provided.
         all_kwds = self.required_arguments.union(self.optional_arguments.keys())
-        unknown_kwds = set(self._kwds).difference(all_kwds)
-        if unknown_kwds:
+        if unknown_kwds := set(self._kwds).difference(all_kwds):
             raise TemplateKeywordArgumentError(
                 "Keyword argument provided is not specified in template: '{}'.".format(
                     "', '".join(unknown_kwds)
@@ -168,9 +165,7 @@ class _BaseInstallationTemplate:
                 )
 
     def _set_kwds_as_attrs(self):
-        # Check that keywords do not shadow attributes of this object.
-        shadowed = set(self._kwds).intersection(dir(self))
-        if shadowed:
+        if shadowed := set(self._kwds).intersection(dir(self)):
             raise TemplateKeywordArgumentError(
                 "Invalid keyword arguments: '{}'. If these keywords are used by the"
                 " template, then the template must be modified to use different"

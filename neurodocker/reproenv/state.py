@@ -38,13 +38,6 @@ def _validate_template(template: TemplateType):
     except jsonschema.exceptions.ValidationError as e:
         raise TemplateError(f"Invalid template: {e.message}.") from e
 
-    # TODO: Check that all variables in the instructions are listed in arguments.
-    # something like https://stackoverflow.com/a/8284419/5666087
-    # but that solution does not get attributes like foo in `self.foo`.
-    # For now, this is taken care of in Renderer classes, but it would be good to move
-    # that behavior here, so we can catch errors early.
-    pass
-
 
 def _validate_renderer(d):
     """Validate renderer dictionary against JSON schema. Raise exception if invalid."""
@@ -90,7 +83,7 @@ class _TemplateRegistry:
         if isinstance(path_or_template, dict):
             if name is None:
                 raise ValueError("`name` required when template is not a file")
-            name = str(name)
+            name = name
             template = copy.deepcopy(path_or_template)
         else:
             path_or_template = Path(path_or_template)
