@@ -116,10 +116,7 @@ def _log_instruction(func: ty.Callable):
         # Assume that **kwds arguments are _always_ kwds (eg, not kwargs).
         # TODO: generalize this to work on any VAR_KEYWORD parameter.
         kwds_param = sig.parameters.get("kwds")
-        if (
-            kwds_param is not None
-            and kwds_param.kind == kwds_param.VAR_KEYWORD
-        ):
+        if kwds_param is not None and kwds_param.kind == kwds_param.VAR_KEYWORD:
             bargs_kwds = bargs.arguments.pop("kwds")
             if bargs_kwds is not None:
                 bargs.arguments.update(bargs_kwds)
