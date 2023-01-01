@@ -116,11 +116,13 @@ def _log_instruction(func: ty.Callable):
         # Assume that **kwds arguments are _always_ kwds (eg, not kwargs).
         # TODO: generalize this to work on any VAR_KEYWORD parameter.
         kwds_param = sig.parameters.get("kwds")
-        if kwds_param is not None:
-            if kwds_param.kind == kwds_param.VAR_KEYWORD:
-                bargs_kwds = bargs.arguments.pop("kwds")
-                if bargs_kwds is not None:
-                    bargs.arguments.update(bargs_kwds)
+        if (
+            kwds_param is not None
+            and kwds_param.kind == kwds_param.VAR_KEYWORD
+        ):
+            bargs_kwds = bargs.arguments.pop("kwds")
+            if bargs_kwds is not None:
+                bargs.arguments.update(bargs_kwds)
 
         d = {"name": func.__name__, "kwds": dict(bargs.arguments)}
 
@@ -136,8 +138,7 @@ class _Renderer:
     ) -> None:
         if pkg_manager not in allowed_pkg_managers:
             raise RendererError(
-                "Unknown package manager '{}'. Allowed package managers are"
-                " '{}'.".format(pkg_manager, "', '".join(allowed_pkg_managers))
+                f"""Unknown package manager '{pkg_manager}'. Allowed package managers are '{"', '".join(allowed_pkg_managers)}'."""
             )
 
         self.pkg_manager = pkg_manager
@@ -433,8 +434,7 @@ class _Renderer:
         j = j.replace("%", "%%")
         # Escape single quotes with '"'"'
         j = j.replace("'", "'\"'\"'")
-        cmd = f"printf '{j}' > {REPROENV_SPEC_FILE_IN_CONTAINER}"
-        return cmd
+        return f"printf '{j}' > {REPROENV_SPEC_FILE_IN_CONTAINER}"
 
 
 class DockerRenderer(_Renderer):
@@ -456,8 +456,7 @@ class DockerRenderer(_Renderer):
         if self._current_user != "root":
             s += f"\nUSER {self._current_user}"
         s += f"\n{self._json_save_end}"
-        s = s.strip()  # Prune whitespace from beginning and end.
-        return s
+        return s.strip()
 
     @_log_instruction
     def arg(self, key: str, value: str = None) -> DockerRenderer:
@@ -497,17 +496,14 @@ class DockerRenderer(_Renderer):
 
     @_log_instruction
     def entrypoint(self, args: ty.List[str]) -> DockerRenderer:
-        s = 'ENTRYPOINT ["{}"]'.format('", "'.join(args))
+        s = f"""ENTRYPOINT ["{'", "'.join(args)}"]"""
         self._parts.append(s)
         return self
 
     @_log_instruction
     def from_(self, base_image: str, as_: str = None) -> DockerRenderer:
         """Add a Dockerfile `FROM` instruction."""
-        if as_ is None:
-            s = "FROM " + base_image
-        else:
-            s = f"FROM {base_image} AS {as_}"
+        s = f"FROM {base_image}" if as_ is None else f"FROM {base_image} AS {as_}"
         self._parts.append(s)
         return self
 
@@ -559,7 +555,7 @@ class DockerRenderer(_Renderer):
     @_log_instruction
     def workdir(self, path: PathType) -> DockerRenderer:
         """Add a Dockerfile `WORKDIR` instruction."""
-        self._parts.append("WORKDIR " + str(path))
+        self._parts.append(f"WORKDIR {str(path)}")
         return self
 
 
@@ -723,7 +719,7 @@ def _indent_run_instruction(string: str, indent=4) -> str:
         previous_cont = lines[ii - 1].endswith("\\") or lines[ii - 1].startswith("if")
         if ii:  # do not apply to first line
             if not already_cont and not previous_cont and not is_comment:
-                line = "&& " + line
+                line = f"&& {line}"
             if not already_cont and previous_cont:
                 line = " " * (indent + 3) + line  # indent + len("&& ")
             else:
@@ -778,11 +774,13 @@ rm "${{_reproenv_tmppath}}\""""
     urls = sorted(urls) if sort else urls
     opts = "-q" if opts is None else opts
 
-    s = "\n".join(map(install_one, urls))
-    s += """
+    s = (
+        "\n".join(map(install_one, urls))
+        + """
 apt-get update -qq
 apt-get install --yes --quiet --fix-missing
 rm -rf /var/lib/apt/lists/*"""
+    )
     return s
 
 
