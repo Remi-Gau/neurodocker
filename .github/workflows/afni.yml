@@ -8,16 +8,25 @@ on:
     branches: ["*"]
 
 jobs:
-
   afni:
-
     runs-on: ubuntu-latest
 
     strategy:
       fail-fast: false
       matrix:
-        base_image: ['ubuntu:22.04', 'ubuntu:18.04', 'ubuntu:16.04', 'debian:bullseye-20221219-slim', 'debian:buster-20221219-slim', 'stretch-slim', 'fedora:36', 'centos:8', 'centos:7']
-        method: ['binaries', 'source']
+        base_image:
+          [
+            "ubuntu:22.04",
+            "ubuntu:18.04",
+            "ubuntu:16.04",
+            "debian:bullseye-20221219-slim",
+            "debian:buster-20221219-slim",
+            "debian:stretch-slim",
+            "fedora:36",
+            "centos:8",
+            "centos:7",
+          ]
+        method: ["binaries", "source"]
 
     steps:
       - uses: actions/checkout@v3
@@ -55,4 +64,4 @@ jobs:
           cat Dockerfile_tmp
 
       - name: Generate Dockerfile
-        run: docker build -f Dockerfile_tmp .          
+        run: docker build -f Dockerfile_tmp .
