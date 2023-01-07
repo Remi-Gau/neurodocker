@@ -42,7 +42,7 @@ jobs:
       - name: Generate Dockerfile
         run: |
 
-          apt_based=('ubuntu:22.04', 'ubuntu:18.04', 'ubuntu:16.04', 'debian:bullseye-20221219-slim', 'debian:buster-20221219-slim', 'stretch-slim')
+          apt_based=('ubuntu:22.04', 'ubuntu:18.04', 'ubuntu:16.04', 'debian:bullseye-20221219-slim', 'debian:buster-20221219-slim', 'stretch-slim', 'debian:stretch-slim')
           if [[ " ${apt_based[*]} " =~ ${{ matrix.base_image }} ]]; then
             pkg_manager="apt"
           fi
