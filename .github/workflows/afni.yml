@@ -49,6 +49,10 @@ jobs:
             --pkg-manager=${pkg_manager} \
             --afni \
             method=${{ matrix.method }} \
+            version=latest \
             > Dockerfile_tmp
 
           cat Dockerfile_tmp
+
+      - name: Generate Dockerfile
+        run: docker build -f Dockerfile_tmp .          

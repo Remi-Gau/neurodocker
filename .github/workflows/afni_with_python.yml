@@ -47,8 +47,13 @@ jobs:
             generate docker \
             --base-image=${{ matrix.base_image }} \
             --pkg-manager=${pkg_manager} \
-            --afni install_python3=true \
+            --afni \
+            install_python3=true \
             method=${{ matrix.method }} \
+            version=latest \
             > Dockerfile_tmp
 
           cat Dockerfile_tmp
+
+      - name: Generate Dockerfile
+        run: docker build -f Dockerfile_tmp .
