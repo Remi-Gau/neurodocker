@@ -14,7 +14,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        base_image: ["ubuntu:22.04"]
+        base_image: ['ubuntu:22.04', 'ubuntu:18.04', 'ubuntu:16.04', 'debian:bullseye-20221219-slim', 'debian:buster-20221219-slim']
         method: ["binaries", "source"]
 
     steps:
@@ -52,5 +52,5 @@ jobs:
 
           cat Dockerfile_tmp
 
-      # - name: Generate Dockerfile
+      # - name: Generate Docker
       #   run: docker build -f Dockerfile_tmp .
