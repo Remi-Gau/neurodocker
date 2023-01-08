@@ -1,5 +1,5 @@
 # This is file is automatically generated. Do not edit.
-name: afni
+name: debug_afni_no_python
 
 on:
   push:
@@ -14,18 +14,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        base_image:
-          [
-            "ubuntu:22.04",
-            "ubuntu:18.04",
-            "ubuntu:16.04",
-            "debian:bullseye-20221219-slim",
-            "debian:buster-20221219-slim",
-            "debian:stretch-slim",
-            "fedora:36",
-            "centos:8",
-            "centos:7",
-          ]
+        base_image: ["ubuntu:22.04"]
         method: ["binaries", "source"]
 
     steps:
@@ -63,5 +52,5 @@ jobs:
 
           cat Dockerfile_tmp
 
-      - name: Generate Dockerfile
-        run: docker build -f Dockerfile_tmp .
+      # - name: Generate Dockerfile
+      #   run: docker build -f Dockerfile_tmp .
