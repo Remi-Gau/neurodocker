@@ -1,5 +1,5 @@
 # This is file is automatically generated. Do not edit.
-name: 'spm12'
+name: 'spm12_debug'
 
 on:
   push:
@@ -13,7 +13,7 @@ concurrency:
 
 jobs:
 
-  spm12:
+  spm12_debug:
 
     runs-on: ubuntu-latest
 
@@ -53,6 +53,7 @@ jobs:
             generate docker \
             --base-image=${{ matrix.base_image }} \
             --pkg-manager=${pkg_manager} \
+            --install openjdk-8-jdk \
             --yes \
             --spm12 \
             version=${{ matrix.version }} \
