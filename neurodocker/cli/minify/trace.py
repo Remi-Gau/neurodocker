@@ -149,9 +149,7 @@ def minify(
     ret: int
     result: bytes
     ret, result = container.exec_run(
-        "/tmp/reprozip-miniconda/bin/python /tmp/_prune.py"
-        " --config-file /tmp/neurodocker-reprozip-trace/config.yml"
-        " --dirs-to-prune {}".format(" ".join(map(str, directories_to_prune))).split()
+        f'/tmp/reprozip-miniconda/bin/python /tmp/_prune.py --config-file /tmp/neurodocker-reprozip-trace/config.yml --dirs-to-prune {" ".join(map(str, directories_to_prune))}'.split()
     )
     if ret != 0:
         raise RuntimeError(f"Failed: {result.decode().strip()}")
@@ -167,9 +165,7 @@ def minify(
         print("No files to remove. Quitting.")
         return
 
-    # Check if any files to be removed are in mounted directories.
-    mounts = _get_mounts(container.id)
-    if mounts:
+    if mounts := _get_mounts(container.id):
         for m in mounts:
             for p in files_to_remove:
                 if Path(m["Destination"]) in Path(p).parents:

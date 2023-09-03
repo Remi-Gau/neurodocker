@@ -65,7 +65,7 @@ def build_docker_image(context: Path, remove=False) -> Generator[str, None, None
     df = context / "Dockerfile"
     if not df.exists():
         raise FileNotFoundError(f"Dockerfile not found: {df}")
-    tag = "reproenv-pytest-" + uuid.uuid4().hex
+    tag = f"reproenv-pytest-{uuid.uuid4().hex}"
     cmd: list[str] = ["docker", "build", "--tag", tag, str(context)]
     try:
         _ = subprocess.check_output(cmd, cwd=context)
@@ -114,10 +114,8 @@ def build_singularity_image(context: Path, remove=True) -> Generator[str, None, 
         yield str(sif)
     finally:
         if remove:
-            try:
+            with contextlib.suppress(FileNotFoundError):
                 sif.unlink()
-            except FileNotFoundError:
-                pass
 
 
 def run_docker_image(img: str, args: list[str] = None, entrypoint: list[str] = None):
@@ -182,11 +180,4 @@ def prune_rendered(r: str) -> str:
     new_lines = lines[: start_bad - 1] + lines[end_bad + 1 :]
     r = "\n".join(new_lines)
 
-    # Remove comments.
-    # This part has to happen _after_ removing the JSON, because
-    # JSON is removed based on a certain comment.
-    r = "\n".join(line for line in r.splitlines() if not line.startswith("#"))
-
-    # TODO: should we remove empty lines?
-
-    return r
+    return "\n".join(line for line in r.splitlines() if not line.startswith("#"))
