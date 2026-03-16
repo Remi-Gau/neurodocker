@@ -17,24 +17,27 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-
-  
-  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
   
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/doctools.js"></script>
@@ -46,6 +49,7 @@
     <link rel="prev" title="Quickstart" href="quickstart.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
   </head>
   
   
@@ -61,19 +65,8 @@
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
-  
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
-  
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../search.html"
       method="get">
@@ -81,7 +74,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search the docs ..."
          aria-label="Search the docs ..."
          autocomplete="off"
@@ -89,8 +81,8 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -157,29 +149,21 @@
         <div class="navbar-item navbar-persistent--container">
           
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
         </div>
       
       
         <div class="navbar-item">
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script></div>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
       
         <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
@@ -216,15 +200,11 @@ document.write(`
   
     <div class="navbar-persistent--mobile">
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
     </div>
   
 
@@ -243,7 +223,8 @@ document.write(`
       
       
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -283,15 +264,11 @@ document.write(`
         
           <div class="navbar-item">
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script></div>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
         
           <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
@@ -347,9 +324,14 @@ document.write(`
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -367,8 +349,6 @@ document.write(`
       
         <div class="header-article-item">
 
-
-
 <nav aria-label="Breadcrumb" class="d-print-none">
   <ul class="bd-breadcrumbs">
     
@@ -380,7 +360,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="index.html" class="nav-link">User Guide</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">Command-line...</li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Command-line Interface</span></li>
   </ul>
 </nav>
 </div>
@@ -413,7 +393,7 @@ This program has two subcommands: <code class="code docutils literal notranslate
 
 <span class="n">Commands</span><span class="p">:</span>
   <span class="n">generate</span>     <span class="n">Generate</span> <span class="n">a</span> <span class="n">container</span><span class="o">.</span>
-  <span class="n">genfromjson</span>  <span class="n">Generate</span> <span class="n">a</span> <span class="n">container</span> <span class="kn">from</span> <span class="nn">a</span> <span class="n">ReproEnv</span> <span class="n">JSON</span> <span class="n">file</span><span class="o">.</span>
+  <span class="n">genfromjson</span>  <span class="n">Generate</span> <span class="n">a</span> <span class="n">container</span> <span class="kn">from</span><span class="w"> </span><span class="nn">a</span> <span class="n">ReproEnv</span> <span class="n">JSON</span> <span class="n">file</span><span class="o">.</span>
   <span class="n">minify</span>       <span class="n">Minify</span> <span class="n">a</span> <span class="n">container</span><span class="o">.</span>
 </pre></div>
 </div>
@@ -440,212 +420,6 @@ Most of the arguments for these subcommands are identical, but please check the 
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Usage</span><span class="p">:</span> <span class="n">neurodocker</span> <span class="n">generate</span> <span class="n">docker</span> <span class="p">[</span><span class="n">OPTIONS</span><span class="p">]</span>
 
   <span class="n">Generate</span> <span class="n">a</span> <span class="n">Dockerfile</span><span class="o">.</span>
-
-<span class="n">Options</span><span class="p">:</span>
-  <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="o">--</span><span class="n">pkg</span><span class="o">-</span><span class="n">manager</span> <span class="p">[</span><span class="n">yum</span><span class="o">|</span><span class="n">apt</span><span class="p">]</span>  <span class="n">System</span> <span class="n">package</span> <span class="n">manager</span>  <span class="p">[</span><span class="n">required</span><span class="p">]</span>
-  <span class="o">-</span><span class="n">b</span><span class="p">,</span> <span class="o">--</span><span class="n">base</span><span class="o">-</span><span class="n">image</span> <span class="n">TEXT</span>        <span class="n">Base</span> <span class="n">image</span>  <span class="p">[</span><span class="n">required</span><span class="p">]</span>
-  <span class="o">--</span><span class="n">arg</span> <span class="n">KEY</span><span class="o">=</span><span class="n">VALUE</span>              <span class="n">Build</span><span class="o">-</span><span class="n">time</span> <span class="n">variables</span> <span class="p">(</span><span class="n">do</span> <span class="ow">not</span> <span class="n">persist</span> <span class="n">after</span>
-                               <span class="n">container</span> <span class="ow">is</span> <span class="n">built</span><span class="p">)</span>
-  <span class="o">--</span><span class="n">copy</span> <span class="n">TUPLE</span>                 <span class="n">Copy</span> <span class="n">files</span> <span class="n">into</span> <span class="n">the</span> <span class="n">container</span><span class="o">.</span> <span class="n">Provide</span> <span class="n">at</span> <span class="n">least</span>
-                               <span class="n">two</span> <span class="n">paths</span><span class="o">.</span> <span class="n">The</span> <span class="n">last</span> <span class="n">path</span> <span class="ow">is</span> <span class="n">always</span> <span class="n">the</span>
-                               <span class="n">destination</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">container</span><span class="o">.</span>
-  <span class="o">--</span><span class="n">add</span> <span class="n">TUPLE</span>                  <span class="n">Extract</span> <span class="n">a</span> <span class="n">tar</span> <span class="n">file</span> <span class="k">as</span> <span class="n">a</span> <span class="n">layer</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">container</span><span class="o">.</span>
-                               <span class="n">Provide</span> <span class="n">a</span> <span class="n">source</span> <span class="ow">and</span> <span class="n">destination</span> <span class="n">path</span><span class="o">.</span>
-  <span class="o">--</span><span class="n">env</span> <span class="n">KEY</span><span class="o">=</span><span class="n">VALUE</span>              <span class="n">Set</span> <span class="n">persistent</span> <span class="n">environment</span> <span class="n">variables</span>
-  <span class="o">--</span><span class="n">entrypoint</span> <span class="n">TUPLE</span>           <span class="n">Set</span> <span class="n">entrypoint</span> <span class="n">of</span> <span class="n">the</span> <span class="n">container</span>
-  <span class="o">--</span><span class="n">install</span> <span class="n">TUPLE</span>              <span class="n">Install</span> <span class="n">packages</span> <span class="k">with</span> <span class="n">system</span> <span class="n">package</span> <span class="n">manager</span>
-  <span class="o">--</span><span class="n">label</span> <span class="n">KEY</span><span class="o">=</span><span class="n">VALUE</span>            <span class="n">Set</span> <span class="n">labels</span> <span class="n">on</span> <span class="n">the</span> <span class="n">container</span>
-  <span class="o">--</span><span class="n">run</span> <span class="n">TEXT</span>                   <span class="n">Run</span> <span class="n">commands</span> <span class="ow">in</span> <span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">sh</span>
-  <span class="o">--</span><span class="n">run</span><span class="o">-</span><span class="n">bash</span> <span class="n">TEXT</span>              <span class="n">Run</span> <span class="n">commands</span> <span class="ow">in</span> <span class="n">a</span> <span class="n">bash</span> <span class="n">shell</span>
-  <span class="o">--</span><span class="n">user</span> <span class="n">TEXT</span>                  <span class="n">Switch</span> <span class="n">to</span> <span class="n">a</span> <span class="n">different</span> <span class="n">user</span> <span class="p">(</span><span class="n">create</span> <span class="n">user</span> <span class="k">if</span> <span class="n">it</span>
-                               <span class="n">does</span> <span class="ow">not</span> <span class="n">exist</span><span class="p">)</span>
-  <span class="o">--</span><span class="n">workdir</span> <span class="n">TEXT</span>               <span class="n">Set</span> <span class="n">the</span> <span class="n">working</span> <span class="n">directory</span>
-  <span class="o">--</span><span class="n">yes</span>                        <span class="n">Reply</span> <span class="n">yes</span> <span class="n">to</span> <span class="nb">all</span> <span class="n">prompts</span><span class="o">.</span>
-  <span class="o">--</span><span class="n">json</span>                       <span class="n">Output</span> <span class="n">instructions</span> <span class="k">as</span> <span class="n">JSON</span><span class="o">.</span> <span class="n">This</span> <span class="n">can</span> <span class="n">be</span> <span class="n">used</span>
-                               <span class="n">to</span> <span class="n">generate</span> <span class="n">Dockerfiles</span> <span class="ow">or</span> <span class="n">Singularity</span> <span class="n">recipes</span>
-                               <span class="k">with</span> <span class="n">Neurodocker</span><span class="o">.</span>
-  <span class="o">--</span><span class="n">afni</span> <span class="n">KEY</span><span class="o">=</span><span class="n">VALUE</span>             <span class="n">Add</span> <span class="n">afni</span>
-                                 <span class="n">method</span><span class="o">=</span><span class="p">[</span><span class="n">binaries</span><span class="o">|</span><span class="n">source</span><span class="p">]</span>
-                                 <span class="n">options</span> <span class="k">for</span> <span class="n">method</span><span class="o">=</span><span class="n">binaries</span>
-                                   <span class="o">-</span> <span class="n">install_path</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">afni</span><span class="o">-</span><span class="p">{{</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="p">}}]</span>
-                                   <span class="o">-</span> <span class="n">version</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="n">latest</span><span class="p">]</span>
-                                   <span class="o">-</span> <span class="n">install_r_pkgs</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="n">false</span><span class="p">]</span>
-                                   <span class="o">-</span> <span class="n">install_python3</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="n">false</span><span class="p">]</span>
-                                 <span class="n">options</span> <span class="k">for</span> <span class="n">method</span><span class="o">=</span><span class="n">source</span>
-                                   <span class="o">-</span> <span class="n">version</span> <span class="p">[</span><span class="n">required</span><span class="p">]</span>
-                                   <span class="o">-</span> <span class="n">repo</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">afni</span><span class="o">/</span><span class="n">afni</span><span class="o">.</span><span class="n">git</span><span class="p">]</span>
-                                   <span class="o">-</span> <span class="n">install_path</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">afni</span><span class="o">-</span><span class="p">{{</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="p">}}]</span>
-                                   <span class="o">-</span> <span class="n">install_r_pkgs</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="n">false</span><span class="p">]</span>
-                                   <span class="o">-</span> <span class="n">install_python3</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="n">false</span><span class="p">]</span>
-  <span class="o">--</span><span class="n">ants</span> <span class="n">KEY</span><span class="o">=</span><span class="n">VALUE</span>             <span class="n">Add</span> <span class="n">ants</span>
-                                 <span class="n">method</span><span class="o">=</span><span class="p">[</span><span class="n">binaries</span><span class="o">|</span><span class="n">source</span><span class="p">]</span>
-                                 <span class="n">options</span> <span class="k">for</span> <span class="n">method</span><span class="o">=</span><span class="n">binaries</span>
-                                   <span class="o">-</span> <span class="n">version</span> <span class="p">[</span><span class="n">required</span><span class="p">]</span>
-                                       <span class="n">version</span><span class="o">=</span><span class="p">[</span><span class="mf">2.4.3</span><span class="o">|</span><span class="mf">2.4.2</span><span class="o">|</span><span class="mf">2.4.1</span><span class="o">|</span><span class="mf">2.3.4</span><span class="o">|</span><span class="mf">2.3.2</span><span class="o">|</span><span class="mf">2.3.1</span><span class="o">|</span><span class="mf">2.3.0</span><span class="o">|</span><span class="mf">2.2.0</span><span class="o">|</span><span class="mf">2.1.0</span><span class="o">|</span><span class="mf">2.0.3</span><span class="o">|</span><span class="mf">2.0.0</span><span class="p">]</span>
-                                   <span class="o">-</span> <span class="n">install_path</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">ants</span><span class="o">-</span><span class="p">{{</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="p">}}]</span>
-                                 <span class="n">options</span> <span class="k">for</span> <span class="n">method</span><span class="o">=</span><span class="n">source</span>
-                                   <span class="o">-</span> <span class="n">version</span> <span class="p">[</span><span class="n">required</span><span class="p">]</span>
-                                   <span class="o">-</span> <span class="n">repo</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">ANTsX</span><span class="o">/</span><span class="n">ANTs</span><span class="o">.</span><span class="n">git</span><span class="p">]</span>
-                                   <span class="o">-</span> <span class="n">install_path</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">ants</span><span class="o">-</span><span class="p">{{</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="p">}}]</span>
-                                   <span class="o">-</span> <span class="n">cmake_opts</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="o">-</span><span class="n">DCMAKE_INSTALL_PREFIX</span><span class="o">=</span><span class="p">{{</span> <span class="bp">self</span><span class="o">.</span><span class="n">install_path</span> <span class="p">}}</span> <span class="o">-</span><span class="n">DBUILD_SHARED_LIBS</span><span class="o">=</span><span class="n">ON</span> <span class="o">-</span><span class="n">DBUILD_TESTING</span><span class="o">=</span><span class="n">OFF</span><span class="p">]</span>
-                                   <span class="o">-</span> <span class="n">make_opts</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="o">-</span><span class="n">j1</span><span class="p">]</span>
-  <span class="o">--</span><span class="n">bids_validator</span> <span class="n">KEY</span><span class="o">=</span><span class="n">VALUE</span>   <span class="n">Add</span> <span class="n">bids_validator</span>
-                                 <span class="n">method</span><span class="o">=</span><span class="p">[</span><span class="n">binaries</span><span class="p">]</span>
-                                 <span class="n">options</span> <span class="k">for</span> <span class="n">method</span><span class="o">=</span><span class="n">binaries</span>
-                                   <span class="o">-</span> <span class="n">version</span> <span class="p">[</span><span class="n">required</span><span class="p">]</span>
-                                       <span class="n">version</span><span class="o">=</span><span class="p">[</span><span class="mf">1.9.0</span><span class="o">|</span><span class="mf">1.13.0</span><span class="o">|</span><span class="mf">1.12.0</span><span class="o">|</span><span class="mf">1.11.0</span><span class="o">|</span><span class="mf">1.10.0</span><span class="p">]</span>
-                                   <span class="o">-</span> <span class="n">node_version</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="mi">20</span><span class="p">]</span>
-  <span class="o">--</span><span class="n">cat12</span> <span class="n">KEY</span><span class="o">=</span><span class="n">VALUE</span>            <span class="n">Add</span> <span class="n">cat12</span>
-                                 <span class="n">method</span><span class="o">=</span><span class="p">[</span><span class="n">binaries</span><span class="p">]</span>
-                                 <span class="n">options</span> <span class="k">for</span> <span class="n">method</span><span class="o">=</span><span class="n">binaries</span>
-                                   <span class="o">-</span> <span class="n">version</span> <span class="p">[</span><span class="n">required</span><span class="p">]</span>
-                                       <span class="n">version</span><span class="o">=</span><span class="p">[</span><span class="n">r2166_R2017b</span><span class="o">|</span><span class="n">r1933_R2017b</span><span class="p">]</span>
-                                   <span class="o">-</span> <span class="n">install_path</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">CAT12</span><span class="o">-</span><span class="p">{{</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="p">}}]</span>
-  <span class="o">--</span><span class="n">convert3d</span> <span class="n">KEY</span><span class="o">=</span><span class="n">VALUE</span>        <span class="n">Add</span> <span class="n">convert3d</span>
-                                 <span class="n">method</span><span class="o">=</span><span class="p">[</span><span class="n">binaries</span><span class="p">]</span>
-                                 <span class="n">options</span> <span class="k">for</span> <span class="n">method</span><span class="o">=</span><span class="n">binaries</span>
-                                   <span class="o">-</span> <span class="n">version</span> <span class="p">[</span><span class="n">required</span><span class="p">]</span>
-                                       <span class="n">version</span><span class="o">=</span><span class="p">[</span><span class="n">nightly</span><span class="o">|</span><span class="mf">1.0.0</span><span class="p">]</span>
-                                   <span class="o">-</span> <span class="n">install_path</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">convert3d</span><span class="o">-</span><span class="p">{{</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="p">}}]</span>
-  <span class="o">--</span><span class="n">dcm2niix</span> <span class="n">KEY</span><span class="o">=</span><span class="n">VALUE</span>         <span class="n">Add</span> <span class="n">dcm2niix</span>
-                                 <span class="n">method</span><span class="o">=</span><span class="p">[</span><span class="n">binaries</span><span class="o">|</span><span class="n">source</span><span class="p">]</span>
-                                 <span class="n">options</span> <span class="k">for</span> <span class="n">method</span><span class="o">=</span><span class="n">binaries</span>
-                                   <span class="o">-</span> <span class="n">version</span> <span class="p">[</span><span class="n">required</span><span class="p">]</span>
-                                       <span class="n">version</span><span class="o">=</span><span class="p">[</span><span class="n">v1</span><span class="mf">.0.20201102</span><span class="o">|</span><span class="n">v1</span><span class="mf">.0.20200331</span><span class="o">|</span><span class="n">v1</span><span class="mf">.0.20190902</span><span class="o">|</span><span class="n">latest</span><span class="p">]</span>
-                                   <span class="o">-</span> <span class="n">install_path</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">dcm2niix</span><span class="o">-</span><span class="p">{{</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="p">}}]</span>
-                                 <span class="n">options</span> <span class="k">for</span> <span class="n">method</span><span class="o">=</span><span class="n">source</span>
-                                   <span class="o">-</span> <span class="n">version</span> <span class="p">[</span><span class="n">required</span><span class="p">]</span>
-                                   <span class="o">-</span> <span class="n">repo</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">rordenlab</span><span class="o">/</span><span class="n">dcm2niix</span><span class="p">]</span>
-                                   <span class="o">-</span> <span class="n">install_path</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">dcm2niix</span><span class="o">-</span><span class="p">{{</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="p">}}]</span>
-                                   <span class="o">-</span> <span class="n">cmake_opts</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="p">]</span>
-                                   <span class="o">-</span> <span class="n">make_opts</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="o">-</span><span class="n">j1</span><span class="p">]</span>
-  <span class="o">--</span><span class="n">freesurfer</span> <span class="n">KEY</span><span class="o">=</span><span class="n">VALUE</span>       <span class="n">Add</span> <span class="n">freesurfer</span>
-                                 <span class="n">method</span><span class="o">=</span><span class="p">[</span><span class="n">binaries</span><span class="p">]</span>
-                                 <span class="n">options</span> <span class="k">for</span> <span class="n">method</span><span class="o">=</span><span class="n">binaries</span>
-                                   <span class="o">-</span> <span class="n">version</span> <span class="p">[</span><span class="n">required</span><span class="p">]</span>
-                                       <span class="n">version</span><span class="o">=</span><span class="p">[</span><span class="mf">7.4.1</span><span class="o">|</span><span class="mf">7.3.2</span><span class="o">|</span><span class="mf">7.3.1</span><span class="o">|</span><span class="mf">7.3.0</span><span class="o">|</span><span class="mf">7.2.0</span><span class="o">|</span><span class="mf">7.1.1</span><span class="o">-</span><span class="nb">min</span><span class="o">|</span><span class="mf">7.1.1</span><span class="o">|</span><span class="mf">7.1.0</span><span class="o">|</span><span class="mf">6.0.1</span><span class="o">|</span><span class="mf">6.0.0</span><span class="o">-</span><span class="nb">min</span><span class="o">|</span><span class="mf">6.0.0</span><span class="p">]</span>
-                                   <span class="o">-</span> <span class="n">install_path</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">freesurfer</span><span class="o">-</span><span class="p">{{</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="p">}}]</span>
-                                   <span class="o">-</span> <span class="n">exclude_paths</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="n">average</span><span class="o">/</span><span class="n">mult</span><span class="o">-</span><span class="n">comp</span><span class="o">-</span><span class="n">cor</span>
-                               <span class="n">lib</span><span class="o">/</span><span class="n">cuda</span>
-                               <span class="n">lib</span><span class="o">/</span><span class="n">qt</span>
-                               <span class="n">subjects</span><span class="o">/</span><span class="n">V1_average</span>
-                               <span class="n">subjects</span><span class="o">/</span><span class="n">bert</span>
-                               <span class="n">subjects</span><span class="o">/</span><span class="n">cvs_avg35</span>
-                               <span class="n">subjects</span><span class="o">/</span><span class="n">cvs_avg35_inMNI152</span>
-                               <span class="n">subjects</span><span class="o">/</span><span class="n">fsaverage3</span>
-                               <span class="n">subjects</span><span class="o">/</span><span class="n">fsaverage4</span>
-                               <span class="n">subjects</span><span class="o">/</span><span class="n">fsaverage5</span>
-                               <span class="n">subjects</span><span class="o">/</span><span class="n">fsaverage6</span>
-                               <span class="n">subjects</span><span class="o">/</span><span class="n">fsaverage_sym</span>
-                               <span class="n">trctrain</span>
-                               <span class="p">]</span>
-  <span class="o">--</span><span class="n">fsl</span> <span class="n">KEY</span><span class="o">=</span><span class="n">VALUE</span>              <span class="n">Add</span> <span class="n">fsl</span>
-                                 <span class="n">method</span><span class="o">=</span><span class="p">[</span><span class="n">binaries</span><span class="p">]</span>
-                                 <span class="n">options</span> <span class="k">for</span> <span class="n">method</span><span class="o">=</span><span class="n">binaries</span>
-                                   <span class="o">-</span> <span class="n">version</span> <span class="p">[</span><span class="n">required</span><span class="p">]</span>
-                                       <span class="n">version</span><span class="o">=</span><span class="p">[</span><span class="mf">6.0.7.4</span><span class="o">|</span><span class="mf">6.0.7.1</span><span class="o">|</span><span class="mf">6.0.6.4</span><span class="o">|</span><span class="mf">6.0.6.3</span><span class="o">|</span><span class="mf">6.0.6.2</span><span class="o">|</span><span class="mf">6.0.6.1</span><span class="o">|</span><span class="mf">6.0.6</span><span class="o">|</span><span class="mf">6.0.5.2</span><span class="o">|</span><span class="mf">6.0.5.1</span><span class="o">|</span><span class="mf">6.0.5</span><span class="o">|</span><span class="mf">6.0.4</span><span class="o">|</span><span class="mf">6.0.3</span><span class="o">|</span><span class="mf">6.0.2</span><span class="o">|</span><span class="mf">6.0.1</span><span class="o">|</span><span class="mf">6.0.0</span><span class="o">|</span><span class="mf">5.0.9</span><span class="o">|</span><span class="mf">5.0.8</span><span class="o">|</span><span class="mf">5.0.11</span><span class="o">|</span><span class="mf">5.0.10</span><span class="p">]</span>
-                                   <span class="o">-</span> <span class="n">install_path</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">fsl</span><span class="o">-</span><span class="p">{{</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="p">}}]</span>
-                                   <span class="o">-</span> <span class="n">exclude_paths</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="p">]</span>
-                               <span class="o">**</span><span class="n">Note</span><span class="o">**</span><span class="p">:</span> <span class="n">FSL</span> <span class="ow">is</span> <span class="n">non</span><span class="o">-</span><span class="n">free</span><span class="o">.</span> <span class="n">If</span> <span class="n">you</span> <span class="n">are</span> <span class="n">considering</span> <span class="n">commercial</span> <span class="n">use</span> <span class="n">of</span> <span class="n">FSL</span><span class="p">,</span> <span class="n">please</span> <span class="n">consult</span> <span class="n">the</span> <span class="n">relevant</span> <span class="n">license</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">.</span>
-  <span class="o">--</span><span class="n">jq</span> <span class="n">KEY</span><span class="o">=</span><span class="n">VALUE</span>               <span class="n">Add</span> <span class="n">jq</span>
-                                 <span class="n">method</span><span class="o">=</span><span class="p">[</span><span class="n">binaries</span><span class="o">|</span><span class="n">source</span><span class="p">]</span>
-                                 <span class="n">options</span> <span class="k">for</span> <span class="n">method</span><span class="o">=</span><span class="n">binaries</span>
-                                   <span class="o">-</span> <span class="n">version</span> <span class="p">[</span><span class="n">required</span><span class="p">]</span>
-                                       <span class="n">version</span><span class="o">=</span><span class="p">[</span><span class="mf">1.6</span><span class="o">|</span><span class="mf">1.5</span><span class="p">]</span>
-                                 <span class="n">options</span> <span class="k">for</span> <span class="n">method</span><span class="o">=</span><span class="n">source</span>
-                                   <span class="o">-</span> <span class="n">version</span> <span class="p">[</span><span class="n">required</span><span class="p">]</span>
-  <span class="o">--</span><span class="n">matlabmcr</span> <span class="n">KEY</span><span class="o">=</span><span class="n">VALUE</span>        <span class="n">Add</span> <span class="n">matlabmcr</span>
-                                 <span class="n">method</span><span class="o">=</span><span class="p">[</span><span class="n">binaries</span><span class="p">]</span>
-                                 <span class="n">options</span> <span class="k">for</span> <span class="n">method</span><span class="o">=</span><span class="n">binaries</span>
-                                   <span class="o">-</span> <span class="n">version</span> <span class="p">[</span><span class="n">required</span><span class="p">]</span>
-                                       <span class="n">version</span><span class="o">=</span><span class="p">[</span><span class="mi">2023</span><span class="n">b</span><span class="o">|</span><span class="mi">2023</span><span class="n">a</span><span class="o">|</span><span class="mi">2022</span><span class="n">b</span><span class="o">|</span><span class="mi">2022</span><span class="n">a</span><span class="o">|</span><span class="mi">2021</span><span class="n">b</span><span class="o">|</span><span class="mi">2021</span><span class="n">a</span><span class="o">|</span><span class="mi">2020</span><span class="n">b</span><span class="o">|</span><span class="mi">2020</span><span class="n">a</span><span class="o">|</span><span class="mi">2019</span><span class="n">b</span><span class="o">|</span><span class="mi">2019</span><span class="n">a</span><span class="o">|</span><span class="mi">2018</span><span class="n">b</span><span class="o">|</span><span class="mi">2018</span><span class="n">a</span><span class="o">|</span><span class="mi">2017</span><span class="n">b</span><span class="o">|</span><span class="mi">2017</span><span class="n">a</span><span class="o">|</span><span class="mi">2016</span><span class="n">b</span><span class="o">|</span><span class="mi">2016</span><span class="n">a</span><span class="o">|</span><span class="mi">2015</span><span class="n">b</span><span class="o">|</span><span class="mi">2015</span><span class="n">aSP1</span><span class="o">|</span><span class="mi">2015</span><span class="n">a</span><span class="o">|</span><span class="mi">2014</span><span class="n">b</span><span class="o">|</span><span class="mi">2014</span><span class="n">a</span><span class="o">|</span><span class="mi">2013</span><span class="n">b</span><span class="o">|</span><span class="mi">2013</span><span class="n">a</span><span class="o">|</span><span class="mi">2012</span><span class="n">b</span><span class="o">|</span><span class="mi">2012</span><span class="n">a</span><span class="o">|</span><span class="mi">2010</span><span class="n">a</span><span class="p">]</span>
-                                   <span class="o">-</span> <span class="n">curl_opts</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="p">]</span>
-                                   <span class="o">-</span> <span class="n">install_path</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">MCR</span><span class="o">-</span><span class="p">{{</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="p">}}]</span>
-  <span class="o">--</span><span class="n">minc</span> <span class="n">KEY</span><span class="o">=</span><span class="n">VALUE</span>             <span class="n">Add</span> <span class="n">minc</span>
-                                 <span class="n">method</span><span class="o">=</span><span class="p">[</span><span class="n">binaries</span><span class="p">]</span>
-                                 <span class="n">options</span> <span class="k">for</span> <span class="n">method</span><span class="o">=</span><span class="n">binaries</span>
-                                   <span class="o">-</span> <span class="n">version</span> <span class="p">[</span><span class="n">required</span><span class="p">]</span>
-                                       <span class="n">version</span><span class="o">=</span><span class="p">[</span><span class="mf">1.9.18</span><span class="o">|</span><span class="mf">1.9.17</span><span class="o">|</span><span class="mf">1.9.16</span><span class="o">|</span><span class="mf">1.9.15</span><span class="p">]</span>
-                                   <span class="o">-</span> <span class="n">install_path</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">minc</span><span class="o">-</span><span class="p">{{</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="p">}}]</span>
-  <span class="o">--</span><span class="n">miniconda</span> <span class="n">KEY</span><span class="o">=</span><span class="n">VALUE</span>        <span class="n">Add</span> <span class="n">miniconda</span>
-                                 <span class="n">method</span><span class="o">=</span><span class="p">[</span><span class="n">binaries</span><span class="p">]</span>
-                                 <span class="n">options</span> <span class="k">for</span> <span class="n">method</span><span class="o">=</span><span class="n">binaries</span>
-                                   <span class="o">-</span> <span class="n">version</span> <span class="p">[</span><span class="n">required</span><span class="p">]</span>
-                                       <span class="n">version</span><span class="o">=</span><span class="p">[</span><span class="n">latest</span><span class="o">|*</span><span class="p">]</span>
-                                   <span class="o">-</span> <span class="n">install_path</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">miniconda</span><span class="o">-</span><span class="p">{{</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="p">}}]</span>
-                                   <span class="o">-</span> <span class="n">installed</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="n">false</span><span class="p">]</span>
-                                   <span class="o">-</span> <span class="n">env_name</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="n">base</span><span class="p">]</span>
-                                   <span class="o">-</span> <span class="n">env_exists</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="n">true</span><span class="p">]</span>
-                                   <span class="o">-</span> <span class="n">conda_install</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="p">]</span>
-                                   <span class="o">-</span> <span class="n">pip_install</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="p">]</span>
-                                   <span class="o">-</span> <span class="n">conda_opts</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="p">]</span>
-                                   <span class="o">-</span> <span class="n">pip_opts</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="p">]</span>
-                                   <span class="o">-</span> <span class="n">yaml_file</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="p">]</span>
-                                   <span class="o">-</span> <span class="n">mamba</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="n">false</span><span class="p">]</span>
-  <span class="o">--</span><span class="n">mricron</span> <span class="n">KEY</span><span class="o">=</span><span class="n">VALUE</span>          <span class="n">Add</span> <span class="n">mricron</span>
-                                 <span class="n">method</span><span class="o">=</span><span class="p">[</span><span class="n">binaries</span><span class="p">]</span>
-                                 <span class="n">options</span> <span class="k">for</span> <span class="n">method</span><span class="o">=</span><span class="n">binaries</span>
-                                   <span class="o">-</span> <span class="n">version</span> <span class="p">[</span><span class="n">required</span><span class="p">]</span>
-                                       <span class="n">version</span><span class="o">=</span><span class="p">[</span><span class="mf">1.0.20190902</span><span class="o">|</span><span class="mf">1.0.20190410</span><span class="o">|</span><span class="mf">1.0.20181114</span><span class="o">|</span><span class="mf">1.0.20180614</span><span class="o">|</span><span class="mf">1.0.20180404</span><span class="o">|</span><span class="mf">1.0.20171220</span><span class="p">]</span>
-                                   <span class="o">-</span> <span class="n">install_path</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">mricron</span><span class="o">-</span><span class="p">{{</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="p">}}]</span>
-  <span class="o">--</span><span class="n">mrtrix3</span> <span class="n">KEY</span><span class="o">=</span><span class="n">VALUE</span>          <span class="n">Add</span> <span class="n">mrtrix3</span>
-                                 <span class="n">method</span><span class="o">=</span><span class="p">[</span><span class="n">binaries</span><span class="o">|</span><span class="n">source</span><span class="p">]</span>
-                                 <span class="n">options</span> <span class="k">for</span> <span class="n">method</span><span class="o">=</span><span class="n">binaries</span>
-                                   <span class="o">-</span> <span class="n">version</span> <span class="p">[</span><span class="n">required</span><span class="p">]</span>
-                                       <span class="n">version</span><span class="o">=</span><span class="p">[</span><span class="mf">3.0.4</span><span class="o">|</span><span class="mf">3.0.3</span><span class="o">|</span><span class="mf">3.0.2</span><span class="o">|</span><span class="mf">3.0.1</span><span class="o">|</span><span class="mf">3.0.0</span><span class="p">]</span>
-                                   <span class="o">-</span> <span class="n">install_path</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">mrtrix3</span><span class="o">-</span><span class="p">{{</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="p">}}]</span>
-                                   <span class="o">-</span> <span class="n">build_processes</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="mi">1</span><span class="p">]</span>
-                                 <span class="n">options</span> <span class="k">for</span> <span class="n">method</span><span class="o">=</span><span class="n">source</span>
-                                   <span class="o">-</span> <span class="n">version</span> <span class="p">[</span><span class="n">required</span><span class="p">]</span>
-                                   <span class="o">-</span> <span class="n">repo</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">MRtrix3</span><span class="o">/</span><span class="n">mrtrix3</span><span class="o">.</span><span class="n">git</span><span class="p">]</span>
-                                   <span class="o">-</span> <span class="n">install_path</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">mrtrix3</span><span class="o">-</span><span class="p">{{</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="p">}}]</span>
-                                   <span class="o">-</span> <span class="n">build_processes</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="mi">1</span><span class="p">]</span>
-  <span class="o">--</span><span class="n">ndfreeze</span> <span class="n">KEY</span><span class="o">=</span><span class="n">VALUE</span>         <span class="n">Add</span> <span class="n">ndfreeze</span>
-                                 <span class="n">method</span><span class="o">=</span><span class="p">[</span><span class="n">source</span><span class="p">]</span>
-                                 <span class="n">options</span> <span class="k">for</span> <span class="n">method</span><span class="o">=</span><span class="n">source</span>
-                                   <span class="o">-</span> <span class="n">date</span> <span class="p">[</span><span class="n">required</span><span class="p">]</span>
-                                   <span class="o">-</span> <span class="n">opts</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="p">]</span>
-  <span class="o">--</span><span class="n">neurodebian</span> <span class="n">KEY</span><span class="o">=</span><span class="n">VALUE</span>      <span class="n">Add</span> <span class="n">neurodebian</span>
-                                 <span class="n">method</span><span class="o">=</span><span class="p">[</span><span class="n">binaries</span><span class="p">]</span>
-                                 <span class="n">options</span> <span class="k">for</span> <span class="n">method</span><span class="o">=</span><span class="n">binaries</span>
-                                   <span class="o">-</span> <span class="n">os_codename</span> <span class="p">[</span><span class="n">required</span><span class="p">]</span>
-                                   <span class="o">-</span> <span class="n">version</span> <span class="p">[</span><span class="n">required</span><span class="p">]</span>
-                                       <span class="n">version</span><span class="o">=</span><span class="p">[</span><span class="n">usa</span><span class="o">-</span><span class="n">tn</span><span class="o">|</span><span class="n">usa</span><span class="o">-</span><span class="n">nh</span><span class="o">|</span><span class="n">usa</span><span class="o">-</span><span class="n">ca</span><span class="o">|</span><span class="n">japan</span><span class="o">|</span><span class="n">greece</span><span class="o">|</span><span class="n">germany</span><span class="o">-</span><span class="n">munich</span><span class="o">|</span><span class="n">germany</span><span class="o">-</span><span class="n">magdeburg</span><span class="o">|</span><span class="n">china</span><span class="o">-</span><span class="n">zhejiang</span><span class="o">|</span><span class="n">china</span><span class="o">-</span><span class="n">tsinghua</span><span class="o">|</span><span class="n">china</span><span class="o">-</span><span class="n">scitech</span><span class="o">|</span><span class="n">australia</span><span class="p">]</span>
-                                   <span class="o">-</span> <span class="n">full_or_libre</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="n">full</span><span class="p">]</span>
-  <span class="o">--</span><span class="n">niftyreg</span> <span class="n">KEY</span><span class="o">=</span><span class="n">VALUE</span>         <span class="n">Add</span> <span class="n">niftyreg</span>
-                                 <span class="n">method</span><span class="o">=</span><span class="p">[</span><span class="n">source</span><span class="p">]</span>
-                                 <span class="n">options</span> <span class="k">for</span> <span class="n">method</span><span class="o">=</span><span class="n">source</span>
-                                   <span class="o">-</span> <span class="n">version</span> <span class="p">[</span><span class="n">required</span><span class="p">]</span>
-                                   <span class="o">-</span> <span class="n">repo</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">KCL</span><span class="o">-</span><span class="n">BMEIS</span><span class="o">/</span><span class="n">niftyreg</span><span class="p">]</span>
-                                   <span class="o">-</span> <span class="n">install_path</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">niftyreg</span><span class="o">-</span><span class="p">{{</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="p">}}]</span>
-                                   <span class="o">-</span> <span class="n">cmake_opts</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="o">-</span><span class="n">DCMAKE_INSTALL_PREFIX</span><span class="o">=</span><span class="p">{{</span> <span class="bp">self</span><span class="o">.</span><span class="n">install_path</span> <span class="p">}}</span> <span class="o">-</span><span class="n">DBUILD_SHARED_LIBS</span><span class="o">=</span><span class="n">ON</span> <span class="o">-</span><span class="n">DBUILD_TESTING</span><span class="o">=</span><span class="n">OFF</span><span class="p">]</span>
-                                   <span class="o">-</span> <span class="n">make_opts</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="o">-</span><span class="n">j1</span><span class="p">]</span>
-  <span class="o">--</span><span class="n">petpvc</span> <span class="n">KEY</span><span class="o">=</span><span class="n">VALUE</span>           <span class="n">Add</span> <span class="n">petpvc</span>
-                                 <span class="n">method</span><span class="o">=</span><span class="p">[</span><span class="n">binaries</span><span class="p">]</span>
-                                 <span class="n">options</span> <span class="k">for</span> <span class="n">method</span><span class="o">=</span><span class="n">binaries</span>
-                                   <span class="o">-</span> <span class="n">version</span> <span class="p">[</span><span class="n">required</span><span class="p">]</span>
-                                       <span class="n">version</span><span class="o">=</span><span class="p">[</span><span class="mf">1.2.4</span><span class="o">|</span><span class="mf">1.2.2</span><span class="o">|</span><span class="mf">1.2.1</span><span class="o">|</span><span class="mf">1.2.0</span><span class="o">-</span><span class="n">b</span><span class="o">|</span><span class="mf">1.2.0</span><span class="o">-</span><span class="n">a</span><span class="o">|</span><span class="mf">1.1.0</span><span class="o">|</span><span class="mf">1.0.0</span><span class="p">]</span>
-                                   <span class="o">-</span> <span class="n">install_path</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">petpvc</span><span class="o">-</span><span class="p">{{</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="p">}}]</span>
-  <span class="o">--</span><span class="n">spm12</span> <span class="n">KEY</span><span class="o">=</span><span class="n">VALUE</span>            <span class="n">Add</span> <span class="n">spm12</span>
-                                 <span class="n">method</span><span class="o">=</span><span class="p">[</span><span class="n">binaries</span><span class="p">]</span>
-                                 <span class="n">options</span> <span class="k">for</span> <span class="n">method</span><span class="o">=</span><span class="n">binaries</span>
-                                   <span class="o">-</span> <span class="n">version</span> <span class="p">[</span><span class="n">required</span><span class="p">]</span>
-                                       <span class="n">version</span><span class="o">=</span><span class="p">[</span><span class="n">r7771</span><span class="o">|</span><span class="n">r7487</span><span class="o">|</span><span class="n">r7219</span><span class="o">|</span><span class="n">r6914</span><span class="o">|</span><span class="n">r6685</span><span class="o">|</span><span class="n">r6472</span><span class="o">|</span><span class="n">r6225</span><span class="p">]</span>
-                                   <span class="o">-</span> <span class="n">install_path</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">spm12</span><span class="o">-</span><span class="p">{{</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="p">}}]</span>
-                                   <span class="o">-</span> <span class="n">matlab_install_path</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">matlab</span><span class="o">-</span><span class="n">compiler</span><span class="o">-</span><span class="n">runtime</span><span class="o">-</span><span class="mi">2010</span><span class="n">a</span><span class="p">]</span>
-  <span class="o">--</span><span class="n">vnc</span> <span class="n">KEY</span><span class="o">=</span><span class="n">VALUE</span>              <span class="n">Add</span> <span class="n">vnc</span>
-                                 <span class="n">method</span><span class="o">=</span><span class="p">[</span><span class="n">source</span><span class="p">]</span>
-                                 <span class="n">options</span> <span class="k">for</span> <span class="n">method</span><span class="o">=</span><span class="n">source</span>
-                                   <span class="o">-</span> <span class="n">passwd</span> <span class="p">[</span><span class="n">required</span><span class="p">]</span>
-  <span class="o">--</span><span class="n">help</span>                       <span class="n">Show</span> <span class="n">this</span> <span class="n">message</span> <span class="ow">and</span> <span class="n">exit</span><span class="o">.</span>
-</pre></div>
-</div>
-</section>
-<section id="neurodocker-generate-singularity">
-<h4>neurodocker generate singularity<a class="headerlink" href="#neurodocker-generate-singularity" title="Permalink to this heading">#</a></h4>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Usage</span><span class="p">:</span> <span class="n">neurodocker</span> <span class="n">generate</span> <span class="n">singularity</span> <span class="p">[</span><span class="n">OPTIONS</span><span class="p">]</span>
-
-  <span class="n">Generate</span> <span class="n">a</span> <span class="n">Singularity</span> <span class="n">recipe</span><span class="o">.</span>
 
 <span class="n">Options</span><span class="p">:</span>
   <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="o">--</span><span class="n">pkg</span><span class="o">-</span><span class="n">manager</span> <span class="p">[</span><span class="n">apt</span><span class="o">|</span><span class="n">yum</span><span class="p">]</span>  <span class="n">System</span> <span class="n">package</span> <span class="n">manager</span>  <span class="p">[</span><span class="n">required</span><span class="p">]</span>
@@ -687,7 +461,7 @@ Most of the arguments for these subcommands are identical, but please check the 
                                  <span class="n">method</span><span class="o">=</span><span class="p">[</span><span class="n">binaries</span><span class="o">|</span><span class="n">source</span><span class="p">]</span>
                                  <span class="n">options</span> <span class="k">for</span> <span class="n">method</span><span class="o">=</span><span class="n">binaries</span>
                                    <span class="o">-</span> <span class="n">version</span> <span class="p">[</span><span class="n">required</span><span class="p">]</span>
-                                       <span class="n">version</span><span class="o">=</span><span class="p">[</span><span class="mf">2.4.3</span><span class="o">|</span><span class="mf">2.4.2</span><span class="o">|</span><span class="mf">2.4.1</span><span class="o">|</span><span class="mf">2.3.4</span><span class="o">|</span><span class="mf">2.3.2</span><span class="o">|</span><span class="mf">2.3.1</span><span class="o">|</span><span class="mf">2.3.0</span><span class="o">|</span><span class="mf">2.2.0</span><span class="o">|</span><span class="mf">2.1.0</span><span class="o">|</span><span class="mf">2.0.3</span><span class="o">|</span><span class="mf">2.0.0</span><span class="p">]</span>
+                                       <span class="n">version</span><span class="o">=</span><span class="p">[</span><span class="mf">2.6.2</span><span class="o">|</span><span class="mf">2.6.1</span><span class="o">|</span><span class="mf">2.6.0</span><span class="o">|</span><span class="mf">2.5.4</span><span class="o">|</span><span class="mf">2.5.3</span><span class="o">|</span><span class="mf">2.5.2</span><span class="o">|</span><span class="mf">2.5.1</span><span class="o">|</span><span class="mf">2.5.0</span><span class="o">|</span><span class="mf">2.4.4</span><span class="o">|</span><span class="mf">2.4.3</span><span class="o">|</span><span class="mf">2.4.2</span><span class="o">|</span><span class="mf">2.4.1</span><span class="o">|</span><span class="mf">2.3.4</span><span class="o">|</span><span class="mf">2.3.2</span><span class="o">|</span><span class="mf">2.3.1</span><span class="o">|</span><span class="mf">2.3.0</span><span class="o">|</span><span class="mf">2.2.0</span><span class="o">|</span><span class="mf">2.1.0</span><span class="o">|</span><span class="mf">2.0.3</span><span class="o">|</span><span class="mf">2.0.0</span><span class="p">]</span>
                                    <span class="o">-</span> <span class="n">install_path</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">ants</span><span class="o">-</span><span class="p">{{</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="p">}}]</span>
                                  <span class="n">options</span> <span class="k">for</span> <span class="n">method</span><span class="o">=</span><span class="n">source</span>
                                    <span class="o">-</span> <span class="n">version</span> <span class="p">[</span><span class="n">required</span><span class="p">]</span>
@@ -705,7 +479,7 @@ Most of the arguments for these subcommands are identical, but please check the 
                                  <span class="n">method</span><span class="o">=</span><span class="p">[</span><span class="n">binaries</span><span class="p">]</span>
                                  <span class="n">options</span> <span class="k">for</span> <span class="n">method</span><span class="o">=</span><span class="n">binaries</span>
                                    <span class="o">-</span> <span class="n">version</span> <span class="p">[</span><span class="n">required</span><span class="p">]</span>
-                                       <span class="n">version</span><span class="o">=</span><span class="p">[</span><span class="n">r2166_R2017b</span><span class="o">|</span><span class="n">r1933_R2017b</span><span class="p">]</span>
+                                       <span class="n">version</span><span class="o">=</span><span class="p">[</span><span class="n">r2166_R2017b</span><span class="o">|</span><span class="n">r1933_R2017b</span><span class="o">|</span><span class="mf">12.9</span><span class="n">_R2023b</span><span class="p">]</span>
                                    <span class="o">-</span> <span class="n">install_path</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">CAT12</span><span class="o">-</span><span class="p">{{</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="p">}}]</span>
   <span class="o">--</span><span class="n">convert3d</span> <span class="n">KEY</span><span class="o">=</span><span class="n">VALUE</span>        <span class="n">Add</span> <span class="n">convert3d</span>
                                  <span class="n">method</span><span class="o">=</span><span class="p">[</span><span class="n">binaries</span><span class="p">]</span>
@@ -717,7 +491,7 @@ Most of the arguments for these subcommands are identical, but please check the 
                                  <span class="n">method</span><span class="o">=</span><span class="p">[</span><span class="n">binaries</span><span class="o">|</span><span class="n">source</span><span class="p">]</span>
                                  <span class="n">options</span> <span class="k">for</span> <span class="n">method</span><span class="o">=</span><span class="n">binaries</span>
                                    <span class="o">-</span> <span class="n">version</span> <span class="p">[</span><span class="n">required</span><span class="p">]</span>
-                                       <span class="n">version</span><span class="o">=</span><span class="p">[</span><span class="n">v1</span><span class="mf">.0.20201102</span><span class="o">|</span><span class="n">v1</span><span class="mf">.0.20200331</span><span class="o">|</span><span class="n">v1</span><span class="mf">.0.20190902</span><span class="o">|</span><span class="n">latest</span><span class="p">]</span>
+                                       <span class="n">version</span><span class="o">=</span><span class="p">[</span><span class="n">v1</span><span class="mf">.0.20250506</span><span class="o">|</span><span class="n">v1</span><span class="mf">.0.20250505</span><span class="o">|</span><span class="n">v1</span><span class="mf">.0.20241211</span><span class="o">|</span><span class="n">v1</span><span class="mf">.0.20241208</span><span class="o">|</span><span class="n">v1</span><span class="mf">.0.20240202</span><span class="o">|</span><span class="n">v1</span><span class="mf">.0.20230411</span><span class="o">|</span><span class="n">v1</span><span class="mf">.0.20220720</span><span class="o">|</span><span class="n">v1</span><span class="mf">.0.20211006</span><span class="o">|</span><span class="n">v1</span><span class="mf">.0.20210317</span><span class="o">|</span><span class="n">v1</span><span class="mf">.0.20201102</span><span class="o">|</span><span class="n">v1</span><span class="mf">.0.20200331</span><span class="o">|</span><span class="n">v1</span><span class="mf">.0.20190902</span><span class="o">|</span><span class="n">latest</span><span class="p">]</span>
                                    <span class="o">-</span> <span class="n">install_path</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">dcm2niix</span><span class="o">-</span><span class="p">{{</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="p">}}]</span>
                                  <span class="n">options</span> <span class="k">for</span> <span class="n">method</span><span class="o">=</span><span class="n">source</span>
                                    <span class="o">-</span> <span class="n">version</span> <span class="p">[</span><span class="n">required</span><span class="p">]</span>
@@ -749,7 +523,7 @@ Most of the arguments for these subcommands are identical, but please check the 
                                  <span class="n">method</span><span class="o">=</span><span class="p">[</span><span class="n">binaries</span><span class="p">]</span>
                                  <span class="n">options</span> <span class="k">for</span> <span class="n">method</span><span class="o">=</span><span class="n">binaries</span>
                                    <span class="o">-</span> <span class="n">version</span> <span class="p">[</span><span class="n">required</span><span class="p">]</span>
-                                       <span class="n">version</span><span class="o">=</span><span class="p">[</span><span class="mf">6.0.7.4</span><span class="o">|</span><span class="mf">6.0.7.1</span><span class="o">|</span><span class="mf">6.0.6.4</span><span class="o">|</span><span class="mf">6.0.6.3</span><span class="o">|</span><span class="mf">6.0.6.2</span><span class="o">|</span><span class="mf">6.0.6.1</span><span class="o">|</span><span class="mf">6.0.6</span><span class="o">|</span><span class="mf">6.0.5.2</span><span class="o">|</span><span class="mf">6.0.5.1</span><span class="o">|</span><span class="mf">6.0.5</span><span class="o">|</span><span class="mf">6.0.4</span><span class="o">|</span><span class="mf">6.0.3</span><span class="o">|</span><span class="mf">6.0.2</span><span class="o">|</span><span class="mf">6.0.1</span><span class="o">|</span><span class="mf">6.0.0</span><span class="o">|</span><span class="mf">5.0.9</span><span class="o">|</span><span class="mf">5.0.8</span><span class="o">|</span><span class="mf">5.0.11</span><span class="o">|</span><span class="mf">5.0.10</span><span class="p">]</span>
+                                       <span class="n">version</span><span class="o">=</span><span class="p">[</span><span class="mf">6.0.7.8</span><span class="o">|</span><span class="mf">6.0.7.4</span><span class="o">|</span><span class="mf">6.0.7.19</span><span class="o">|</span><span class="mf">6.0.7.18</span><span class="o">|</span><span class="mf">6.0.7.16</span><span class="o">|</span><span class="mf">6.0.7.14</span><span class="o">|</span><span class="mf">6.0.7.1</span><span class="o">|</span><span class="mf">6.0.6.4</span><span class="o">|</span><span class="mf">6.0.6.3</span><span class="o">|</span><span class="mf">6.0.6.2</span><span class="o">|</span><span class="mf">6.0.6.1</span><span class="o">|</span><span class="mf">6.0.6</span><span class="o">|</span><span class="mf">6.0.5.2</span><span class="o">|</span><span class="mf">6.0.5.1</span><span class="o">|</span><span class="mf">6.0.5</span><span class="o">|</span><span class="mf">6.0.4</span><span class="o">|</span><span class="mf">6.0.3</span><span class="o">|</span><span class="mf">6.0.2</span><span class="o">|</span><span class="mf">6.0.1</span><span class="o">|</span><span class="mf">6.0.0</span><span class="o">|</span><span class="mf">5.0.9</span><span class="o">|</span><span class="mf">5.0.8</span><span class="o">|</span><span class="mf">5.0.11</span><span class="o">|</span><span class="mf">5.0.10</span><span class="p">]</span>
                                    <span class="o">-</span> <span class="n">install_path</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">fsl</span><span class="o">-</span><span class="p">{{</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="p">}}]</span>
                                    <span class="o">-</span> <span class="n">exclude_paths</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="p">]</span>
                                <span class="o">**</span><span class="n">Note</span><span class="o">**</span><span class="p">:</span> <span class="n">FSL</span> <span class="ow">is</span> <span class="n">non</span><span class="o">-</span><span class="n">free</span><span class="o">.</span> <span class="n">If</span> <span class="n">you</span> <span class="n">are</span> <span class="n">considering</span> <span class="n">commercial</span> <span class="n">use</span> <span class="n">of</span> <span class="n">FSL</span><span class="p">,</span> <span class="n">please</span> <span class="n">consult</span> <span class="n">the</span> <span class="n">relevant</span> <span class="n">license</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">.</span>
@@ -757,7 +531,7 @@ Most of the arguments for these subcommands are identical, but please check the 
                                  <span class="n">method</span><span class="o">=</span><span class="p">[</span><span class="n">binaries</span><span class="o">|</span><span class="n">source</span><span class="p">]</span>
                                  <span class="n">options</span> <span class="k">for</span> <span class="n">method</span><span class="o">=</span><span class="n">binaries</span>
                                    <span class="o">-</span> <span class="n">version</span> <span class="p">[</span><span class="n">required</span><span class="p">]</span>
-                                       <span class="n">version</span><span class="o">=</span><span class="p">[</span><span class="mf">1.6</span><span class="o">|</span><span class="mf">1.5</span><span class="p">]</span>
+                                       <span class="n">version</span><span class="o">=</span><span class="p">[</span><span class="mf">1.7.1</span><span class="o">|</span><span class="mf">1.7</span><span class="o">|</span><span class="mf">1.6</span><span class="p">]</span>
                                  <span class="n">options</span> <span class="k">for</span> <span class="n">method</span><span class="o">=</span><span class="n">source</span>
                                    <span class="o">-</span> <span class="n">version</span> <span class="p">[</span><span class="n">required</span><span class="p">]</span>
   <span class="o">--</span><span class="n">matlabmcr</span> <span class="n">KEY</span><span class="o">=</span><span class="n">VALUE</span>        <span class="n">Add</span> <span class="n">matlabmcr</span>
@@ -788,6 +562,214 @@ Most of the arguments for these subcommands are identical, but please check the 
                                    <span class="o">-</span> <span class="n">pip_opts</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="p">]</span>
                                    <span class="o">-</span> <span class="n">yaml_file</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="p">]</span>
                                    <span class="o">-</span> <span class="n">mamba</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="n">false</span><span class="p">]</span>
+                                   <span class="o">-</span> <span class="n">arch</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="n">x86_64</span><span class="p">]</span>
+  <span class="o">--</span><span class="n">mricron</span> <span class="n">KEY</span><span class="o">=</span><span class="n">VALUE</span>          <span class="n">Add</span> <span class="n">mricron</span>
+                                 <span class="n">method</span><span class="o">=</span><span class="p">[</span><span class="n">binaries</span><span class="p">]</span>
+                                 <span class="n">options</span> <span class="k">for</span> <span class="n">method</span><span class="o">=</span><span class="n">binaries</span>
+                                   <span class="o">-</span> <span class="n">version</span> <span class="p">[</span><span class="n">required</span><span class="p">]</span>
+                                       <span class="n">version</span><span class="o">=</span><span class="p">[</span><span class="mf">1.0.20190902</span><span class="o">|</span><span class="mf">1.0.20190410</span><span class="o">|</span><span class="mf">1.0.20181114</span><span class="o">|</span><span class="mf">1.0.20180614</span><span class="o">|</span><span class="mf">1.0.20180404</span><span class="o">|</span><span class="mf">1.0.20171220</span><span class="p">]</span>
+                                   <span class="o">-</span> <span class="n">install_path</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">mricron</span><span class="o">-</span><span class="p">{{</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="p">}}]</span>
+  <span class="o">--</span><span class="n">mrtrix3</span> <span class="n">KEY</span><span class="o">=</span><span class="n">VALUE</span>          <span class="n">Add</span> <span class="n">mrtrix3</span>
+                                 <span class="n">method</span><span class="o">=</span><span class="p">[</span><span class="n">binaries</span><span class="o">|</span><span class="n">source</span><span class="p">]</span>
+                                 <span class="n">options</span> <span class="k">for</span> <span class="n">method</span><span class="o">=</span><span class="n">binaries</span>
+                                   <span class="o">-</span> <span class="n">version</span> <span class="p">[</span><span class="n">required</span><span class="p">]</span>
+                                       <span class="n">version</span><span class="o">=</span><span class="p">[</span><span class="mf">3.0.4</span><span class="o">|</span><span class="mf">3.0.3</span><span class="o">|</span><span class="mf">3.0.2</span><span class="o">|</span><span class="mf">3.0.1</span><span class="o">|</span><span class="mf">3.0.0</span><span class="p">]</span>
+                                   <span class="o">-</span> <span class="n">install_path</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">mrtrix3</span><span class="o">-</span><span class="p">{{</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="p">}}]</span>
+                                   <span class="o">-</span> <span class="n">build_processes</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="mi">1</span><span class="p">]</span>
+                                 <span class="n">options</span> <span class="k">for</span> <span class="n">method</span><span class="o">=</span><span class="n">source</span>
+                                   <span class="o">-</span> <span class="n">version</span> <span class="p">[</span><span class="n">required</span><span class="p">]</span>
+                                   <span class="o">-</span> <span class="n">repo</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">MRtrix3</span><span class="o">/</span><span class="n">mrtrix3</span><span class="o">.</span><span class="n">git</span><span class="p">]</span>
+                                   <span class="o">-</span> <span class="n">install_path</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">mrtrix3</span><span class="o">-</span><span class="p">{{</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="p">}}]</span>
+                                   <span class="o">-</span> <span class="n">build_processes</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="mi">1</span><span class="p">]</span>
+  <span class="o">--</span><span class="n">ndfreeze</span> <span class="n">KEY</span><span class="o">=</span><span class="n">VALUE</span>         <span class="n">Add</span> <span class="n">ndfreeze</span>
+                                 <span class="n">method</span><span class="o">=</span><span class="p">[</span><span class="n">source</span><span class="p">]</span>
+                                 <span class="n">options</span> <span class="k">for</span> <span class="n">method</span><span class="o">=</span><span class="n">source</span>
+                                   <span class="o">-</span> <span class="n">date</span> <span class="p">[</span><span class="n">required</span><span class="p">]</span>
+                                   <span class="o">-</span> <span class="n">opts</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="p">]</span>
+  <span class="o">--</span><span class="n">neurodebian</span> <span class="n">KEY</span><span class="o">=</span><span class="n">VALUE</span>      <span class="n">Add</span> <span class="n">neurodebian</span>
+                                 <span class="n">method</span><span class="o">=</span><span class="p">[</span><span class="n">binaries</span><span class="p">]</span>
+                                 <span class="n">options</span> <span class="k">for</span> <span class="n">method</span><span class="o">=</span><span class="n">binaries</span>
+                                   <span class="o">-</span> <span class="n">version</span> <span class="p">[</span><span class="n">required</span><span class="p">]</span>
+                                       <span class="n">version</span><span class="o">=</span><span class="p">[</span><span class="n">usa</span><span class="o">-</span><span class="n">tn</span><span class="o">|</span><span class="n">usa</span><span class="o">-</span><span class="n">nh</span><span class="o">|</span><span class="n">usa</span><span class="o">-</span><span class="n">ca</span><span class="o">|</span><span class="n">japan</span><span class="o">|</span><span class="n">greece</span><span class="o">|</span><span class="n">germany</span><span class="o">-</span><span class="n">munich</span><span class="o">|</span><span class="n">germany</span><span class="o">-</span><span class="n">magdeburg</span><span class="o">|</span><span class="n">china</span><span class="o">-</span><span class="n">zhejiang</span><span class="o">|</span><span class="n">china</span><span class="o">-</span><span class="n">tsinghua</span><span class="o">|</span><span class="n">china</span><span class="o">-</span><span class="n">scitech</span><span class="o">|</span><span class="n">australia</span><span class="p">]</span>
+                                   <span class="o">-</span> <span class="n">os_codename</span> <span class="p">[</span><span class="n">required</span><span class="p">]</span>
+                                   <span class="o">-</span> <span class="n">full_or_libre</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="n">full</span><span class="p">]</span>
+  <span class="o">--</span><span class="n">niftyreg</span> <span class="n">KEY</span><span class="o">=</span><span class="n">VALUE</span>         <span class="n">Add</span> <span class="n">niftyreg</span>
+                                 <span class="n">method</span><span class="o">=</span><span class="p">[</span><span class="n">source</span><span class="p">]</span>
+                                 <span class="n">options</span> <span class="k">for</span> <span class="n">method</span><span class="o">=</span><span class="n">source</span>
+                                   <span class="o">-</span> <span class="n">version</span> <span class="p">[</span><span class="n">required</span><span class="p">]</span>
+                                   <span class="o">-</span> <span class="n">repo</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">KCL</span><span class="o">-</span><span class="n">BMEIS</span><span class="o">/</span><span class="n">niftyreg</span><span class="p">]</span>
+                                   <span class="o">-</span> <span class="n">install_path</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">niftyreg</span><span class="o">-</span><span class="p">{{</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="p">}}]</span>
+                                   <span class="o">-</span> <span class="n">cmake_opts</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="o">-</span><span class="n">DCMAKE_INSTALL_PREFIX</span><span class="o">=</span><span class="p">{{</span> <span class="bp">self</span><span class="o">.</span><span class="n">install_path</span> <span class="p">}}</span> <span class="o">-</span><span class="n">DBUILD_SHARED_LIBS</span><span class="o">=</span><span class="n">ON</span> <span class="o">-</span><span class="n">DBUILD_TESTING</span><span class="o">=</span><span class="n">OFF</span><span class="p">]</span>
+                                   <span class="o">-</span> <span class="n">make_opts</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="o">-</span><span class="n">j1</span><span class="p">]</span>
+  <span class="o">--</span><span class="n">petpvc</span> <span class="n">KEY</span><span class="o">=</span><span class="n">VALUE</span>           <span class="n">Add</span> <span class="n">petpvc</span>
+                                 <span class="n">method</span><span class="o">=</span><span class="p">[</span><span class="n">binaries</span><span class="p">]</span>
+                                 <span class="n">options</span> <span class="k">for</span> <span class="n">method</span><span class="o">=</span><span class="n">binaries</span>
+                                   <span class="o">-</span> <span class="n">version</span> <span class="p">[</span><span class="n">required</span><span class="p">]</span>
+                                       <span class="n">version</span><span class="o">=</span><span class="p">[</span><span class="mf">1.2.4</span><span class="o">|</span><span class="mf">1.2.2</span><span class="o">|</span><span class="mf">1.2.1</span><span class="o">|</span><span class="mf">1.2.0</span><span class="o">-</span><span class="n">b</span><span class="o">|</span><span class="mf">1.2.0</span><span class="o">-</span><span class="n">a</span><span class="o">|</span><span class="mf">1.1.0</span><span class="o">|</span><span class="mf">1.0.0</span><span class="p">]</span>
+                                   <span class="o">-</span> <span class="n">install_path</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">petpvc</span><span class="o">-</span><span class="p">{{</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="p">}}]</span>
+  <span class="o">--</span><span class="n">spm12</span> <span class="n">KEY</span><span class="o">=</span><span class="n">VALUE</span>            <span class="n">Add</span> <span class="n">spm12</span>
+                                 <span class="n">method</span><span class="o">=</span><span class="p">[</span><span class="n">binaries</span><span class="p">]</span>
+                                 <span class="n">options</span> <span class="k">for</span> <span class="n">method</span><span class="o">=</span><span class="n">binaries</span>
+                                   <span class="o">-</span> <span class="n">version</span> <span class="p">[</span><span class="n">required</span><span class="p">]</span>
+                                       <span class="n">version</span><span class="o">=</span><span class="p">[</span><span class="n">r7771</span><span class="o">|</span><span class="n">r7487</span><span class="o">|</span><span class="n">r7219</span><span class="o">|</span><span class="n">r6914</span><span class="o">|</span><span class="n">r6685</span><span class="o">|</span><span class="n">r6472</span><span class="o">|</span><span class="n">r6225</span><span class="p">]</span>
+                                   <span class="o">-</span> <span class="n">install_path</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">spm12</span><span class="o">-</span><span class="p">{{</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="p">}}]</span>
+                                   <span class="o">-</span> <span class="n">matlab_install_path</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">matlab</span><span class="o">-</span><span class="n">compiler</span><span class="o">-</span><span class="n">runtime</span><span class="o">-</span><span class="mi">2010</span><span class="n">a</span><span class="p">]</span>
+  <span class="o">--</span><span class="n">vnc</span> <span class="n">KEY</span><span class="o">=</span><span class="n">VALUE</span>              <span class="n">Add</span> <span class="n">vnc</span>
+                                 <span class="n">method</span><span class="o">=</span><span class="p">[</span><span class="n">source</span><span class="p">]</span>
+                                 <span class="n">options</span> <span class="k">for</span> <span class="n">method</span><span class="o">=</span><span class="n">source</span>
+                                   <span class="o">-</span> <span class="n">passwd</span> <span class="p">[</span><span class="n">required</span><span class="p">]</span>
+  <span class="o">--</span><span class="n">help</span>                       <span class="n">Show</span> <span class="n">this</span> <span class="n">message</span> <span class="ow">and</span> <span class="n">exit</span><span class="o">.</span>
+</pre></div>
+</div>
+</section>
+<section id="neurodocker-generate-singularity">
+<h4>neurodocker generate singularity<a class="headerlink" href="#neurodocker-generate-singularity" title="Permalink to this heading">#</a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Usage</span><span class="p">:</span> <span class="n">neurodocker</span> <span class="n">generate</span> <span class="n">singularity</span> <span class="p">[</span><span class="n">OPTIONS</span><span class="p">]</span>
+
+  <span class="n">Generate</span> <span class="n">a</span> <span class="n">Singularity</span> <span class="n">recipe</span><span class="o">.</span>
+
+<span class="n">Options</span><span class="p">:</span>
+  <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="o">--</span><span class="n">pkg</span><span class="o">-</span><span class="n">manager</span> <span class="p">[</span><span class="n">yum</span><span class="o">|</span><span class="n">apt</span><span class="p">]</span>  <span class="n">System</span> <span class="n">package</span> <span class="n">manager</span>  <span class="p">[</span><span class="n">required</span><span class="p">]</span>
+  <span class="o">-</span><span class="n">b</span><span class="p">,</span> <span class="o">--</span><span class="n">base</span><span class="o">-</span><span class="n">image</span> <span class="n">TEXT</span>        <span class="n">Base</span> <span class="n">image</span>  <span class="p">[</span><span class="n">required</span><span class="p">]</span>
+  <span class="o">--</span><span class="n">arg</span> <span class="n">KEY</span><span class="o">=</span><span class="n">VALUE</span>              <span class="n">Build</span><span class="o">-</span><span class="n">time</span> <span class="n">variables</span> <span class="p">(</span><span class="n">do</span> <span class="ow">not</span> <span class="n">persist</span> <span class="n">after</span>
+                               <span class="n">container</span> <span class="ow">is</span> <span class="n">built</span><span class="p">)</span>
+  <span class="o">--</span><span class="n">copy</span> <span class="n">TUPLE</span>                 <span class="n">Copy</span> <span class="n">files</span> <span class="n">into</span> <span class="n">the</span> <span class="n">container</span><span class="o">.</span> <span class="n">Provide</span> <span class="n">at</span> <span class="n">least</span>
+                               <span class="n">two</span> <span class="n">paths</span><span class="o">.</span> <span class="n">The</span> <span class="n">last</span> <span class="n">path</span> <span class="ow">is</span> <span class="n">always</span> <span class="n">the</span>
+                               <span class="n">destination</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">container</span><span class="o">.</span>
+  <span class="o">--</span><span class="n">add</span> <span class="n">TUPLE</span>                  <span class="n">Extract</span> <span class="n">a</span> <span class="n">tar</span> <span class="n">file</span> <span class="k">as</span> <span class="n">a</span> <span class="n">layer</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">container</span><span class="o">.</span>
+                               <span class="n">Provide</span> <span class="n">a</span> <span class="n">source</span> <span class="ow">and</span> <span class="n">destination</span> <span class="n">path</span><span class="o">.</span>
+  <span class="o">--</span><span class="n">env</span> <span class="n">KEY</span><span class="o">=</span><span class="n">VALUE</span>              <span class="n">Set</span> <span class="n">persistent</span> <span class="n">environment</span> <span class="n">variables</span>
+  <span class="o">--</span><span class="n">entrypoint</span> <span class="n">TUPLE</span>           <span class="n">Set</span> <span class="n">entrypoint</span> <span class="n">of</span> <span class="n">the</span> <span class="n">container</span>
+  <span class="o">--</span><span class="n">install</span> <span class="n">TUPLE</span>              <span class="n">Install</span> <span class="n">packages</span> <span class="k">with</span> <span class="n">system</span> <span class="n">package</span> <span class="n">manager</span>
+  <span class="o">--</span><span class="n">label</span> <span class="n">KEY</span><span class="o">=</span><span class="n">VALUE</span>            <span class="n">Set</span> <span class="n">labels</span> <span class="n">on</span> <span class="n">the</span> <span class="n">container</span>
+  <span class="o">--</span><span class="n">run</span> <span class="n">TEXT</span>                   <span class="n">Run</span> <span class="n">commands</span> <span class="ow">in</span> <span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">sh</span>
+  <span class="o">--</span><span class="n">run</span><span class="o">-</span><span class="n">bash</span> <span class="n">TEXT</span>              <span class="n">Run</span> <span class="n">commands</span> <span class="ow">in</span> <span class="n">a</span> <span class="n">bash</span> <span class="n">shell</span>
+  <span class="o">--</span><span class="n">user</span> <span class="n">TEXT</span>                  <span class="n">Switch</span> <span class="n">to</span> <span class="n">a</span> <span class="n">different</span> <span class="n">user</span> <span class="p">(</span><span class="n">create</span> <span class="n">user</span> <span class="k">if</span> <span class="n">it</span>
+                               <span class="n">does</span> <span class="ow">not</span> <span class="n">exist</span><span class="p">)</span>
+  <span class="o">--</span><span class="n">workdir</span> <span class="n">TEXT</span>               <span class="n">Set</span> <span class="n">the</span> <span class="n">working</span> <span class="n">directory</span>
+  <span class="o">--</span><span class="n">yes</span>                        <span class="n">Reply</span> <span class="n">yes</span> <span class="n">to</span> <span class="nb">all</span> <span class="n">prompts</span><span class="o">.</span>
+  <span class="o">--</span><span class="n">json</span>                       <span class="n">Output</span> <span class="n">instructions</span> <span class="k">as</span> <span class="n">JSON</span><span class="o">.</span> <span class="n">This</span> <span class="n">can</span> <span class="n">be</span> <span class="n">used</span>
+                               <span class="n">to</span> <span class="n">generate</span> <span class="n">Dockerfiles</span> <span class="ow">or</span> <span class="n">Singularity</span> <span class="n">recipes</span>
+                               <span class="k">with</span> <span class="n">Neurodocker</span><span class="o">.</span>
+  <span class="o">--</span><span class="n">afni</span> <span class="n">KEY</span><span class="o">=</span><span class="n">VALUE</span>             <span class="n">Add</span> <span class="n">afni</span>
+                                 <span class="n">method</span><span class="o">=</span><span class="p">[</span><span class="n">binaries</span><span class="o">|</span><span class="n">source</span><span class="p">]</span>
+                                 <span class="n">options</span> <span class="k">for</span> <span class="n">method</span><span class="o">=</span><span class="n">binaries</span>
+                                   <span class="o">-</span> <span class="n">install_path</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">afni</span><span class="o">-</span><span class="p">{{</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="p">}}]</span>
+                                   <span class="o">-</span> <span class="n">version</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="n">latest</span><span class="p">]</span>
+                                   <span class="o">-</span> <span class="n">install_r_pkgs</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="n">false</span><span class="p">]</span>
+                                   <span class="o">-</span> <span class="n">install_python3</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="n">false</span><span class="p">]</span>
+                                 <span class="n">options</span> <span class="k">for</span> <span class="n">method</span><span class="o">=</span><span class="n">source</span>
+                                   <span class="o">-</span> <span class="n">version</span> <span class="p">[</span><span class="n">required</span><span class="p">]</span>
+                                   <span class="o">-</span> <span class="n">repo</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">afni</span><span class="o">/</span><span class="n">afni</span><span class="o">.</span><span class="n">git</span><span class="p">]</span>
+                                   <span class="o">-</span> <span class="n">install_path</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">afni</span><span class="o">-</span><span class="p">{{</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="p">}}]</span>
+                                   <span class="o">-</span> <span class="n">install_r_pkgs</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="n">false</span><span class="p">]</span>
+                                   <span class="o">-</span> <span class="n">install_python3</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="n">false</span><span class="p">]</span>
+  <span class="o">--</span><span class="n">ants</span> <span class="n">KEY</span><span class="o">=</span><span class="n">VALUE</span>             <span class="n">Add</span> <span class="n">ants</span>
+                                 <span class="n">method</span><span class="o">=</span><span class="p">[</span><span class="n">binaries</span><span class="o">|</span><span class="n">source</span><span class="p">]</span>
+                                 <span class="n">options</span> <span class="k">for</span> <span class="n">method</span><span class="o">=</span><span class="n">binaries</span>
+                                   <span class="o">-</span> <span class="n">version</span> <span class="p">[</span><span class="n">required</span><span class="p">]</span>
+                                       <span class="n">version</span><span class="o">=</span><span class="p">[</span><span class="mf">2.6.2</span><span class="o">|</span><span class="mf">2.6.1</span><span class="o">|</span><span class="mf">2.6.0</span><span class="o">|</span><span class="mf">2.5.4</span><span class="o">|</span><span class="mf">2.5.3</span><span class="o">|</span><span class="mf">2.5.2</span><span class="o">|</span><span class="mf">2.5.1</span><span class="o">|</span><span class="mf">2.5.0</span><span class="o">|</span><span class="mf">2.4.4</span><span class="o">|</span><span class="mf">2.4.3</span><span class="o">|</span><span class="mf">2.4.2</span><span class="o">|</span><span class="mf">2.4.1</span><span class="o">|</span><span class="mf">2.3.4</span><span class="o">|</span><span class="mf">2.3.2</span><span class="o">|</span><span class="mf">2.3.1</span><span class="o">|</span><span class="mf">2.3.0</span><span class="o">|</span><span class="mf">2.2.0</span><span class="o">|</span><span class="mf">2.1.0</span><span class="o">|</span><span class="mf">2.0.3</span><span class="o">|</span><span class="mf">2.0.0</span><span class="p">]</span>
+                                   <span class="o">-</span> <span class="n">install_path</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">ants</span><span class="o">-</span><span class="p">{{</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="p">}}]</span>
+                                 <span class="n">options</span> <span class="k">for</span> <span class="n">method</span><span class="o">=</span><span class="n">source</span>
+                                   <span class="o">-</span> <span class="n">version</span> <span class="p">[</span><span class="n">required</span><span class="p">]</span>
+                                   <span class="o">-</span> <span class="n">repo</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">ANTsX</span><span class="o">/</span><span class="n">ANTs</span><span class="o">.</span><span class="n">git</span><span class="p">]</span>
+                                   <span class="o">-</span> <span class="n">install_path</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">ants</span><span class="o">-</span><span class="p">{{</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="p">}}]</span>
+                                   <span class="o">-</span> <span class="n">cmake_opts</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="o">-</span><span class="n">DCMAKE_INSTALL_PREFIX</span><span class="o">=</span><span class="p">{{</span> <span class="bp">self</span><span class="o">.</span><span class="n">install_path</span> <span class="p">}}</span> <span class="o">-</span><span class="n">DBUILD_SHARED_LIBS</span><span class="o">=</span><span class="n">ON</span> <span class="o">-</span><span class="n">DBUILD_TESTING</span><span class="o">=</span><span class="n">OFF</span><span class="p">]</span>
+                                   <span class="o">-</span> <span class="n">make_opts</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="o">-</span><span class="n">j1</span><span class="p">]</span>
+  <span class="o">--</span><span class="n">bids_validator</span> <span class="n">KEY</span><span class="o">=</span><span class="n">VALUE</span>   <span class="n">Add</span> <span class="n">bids_validator</span>
+                                 <span class="n">method</span><span class="o">=</span><span class="p">[</span><span class="n">binaries</span><span class="p">]</span>
+                                 <span class="n">options</span> <span class="k">for</span> <span class="n">method</span><span class="o">=</span><span class="n">binaries</span>
+                                   <span class="o">-</span> <span class="n">version</span> <span class="p">[</span><span class="n">required</span><span class="p">]</span>
+                                       <span class="n">version</span><span class="o">=</span><span class="p">[</span><span class="mf">1.9.0</span><span class="o">|</span><span class="mf">1.13.0</span><span class="o">|</span><span class="mf">1.12.0</span><span class="o">|</span><span class="mf">1.11.0</span><span class="o">|</span><span class="mf">1.10.0</span><span class="p">]</span>
+                                   <span class="o">-</span> <span class="n">node_version</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="mi">20</span><span class="p">]</span>
+  <span class="o">--</span><span class="n">cat12</span> <span class="n">KEY</span><span class="o">=</span><span class="n">VALUE</span>            <span class="n">Add</span> <span class="n">cat12</span>
+                                 <span class="n">method</span><span class="o">=</span><span class="p">[</span><span class="n">binaries</span><span class="p">]</span>
+                                 <span class="n">options</span> <span class="k">for</span> <span class="n">method</span><span class="o">=</span><span class="n">binaries</span>
+                                   <span class="o">-</span> <span class="n">version</span> <span class="p">[</span><span class="n">required</span><span class="p">]</span>
+                                       <span class="n">version</span><span class="o">=</span><span class="p">[</span><span class="n">r2166_R2017b</span><span class="o">|</span><span class="n">r1933_R2017b</span><span class="o">|</span><span class="mf">12.9</span><span class="n">_R2023b</span><span class="p">]</span>
+                                   <span class="o">-</span> <span class="n">install_path</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">CAT12</span><span class="o">-</span><span class="p">{{</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="p">}}]</span>
+  <span class="o">--</span><span class="n">convert3d</span> <span class="n">KEY</span><span class="o">=</span><span class="n">VALUE</span>        <span class="n">Add</span> <span class="n">convert3d</span>
+                                 <span class="n">method</span><span class="o">=</span><span class="p">[</span><span class="n">binaries</span><span class="p">]</span>
+                                 <span class="n">options</span> <span class="k">for</span> <span class="n">method</span><span class="o">=</span><span class="n">binaries</span>
+                                   <span class="o">-</span> <span class="n">version</span> <span class="p">[</span><span class="n">required</span><span class="p">]</span>
+                                       <span class="n">version</span><span class="o">=</span><span class="p">[</span><span class="n">nightly</span><span class="o">|</span><span class="mf">1.0.0</span><span class="p">]</span>
+                                   <span class="o">-</span> <span class="n">install_path</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">convert3d</span><span class="o">-</span><span class="p">{{</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="p">}}]</span>
+  <span class="o">--</span><span class="n">dcm2niix</span> <span class="n">KEY</span><span class="o">=</span><span class="n">VALUE</span>         <span class="n">Add</span> <span class="n">dcm2niix</span>
+                                 <span class="n">method</span><span class="o">=</span><span class="p">[</span><span class="n">binaries</span><span class="o">|</span><span class="n">source</span><span class="p">]</span>
+                                 <span class="n">options</span> <span class="k">for</span> <span class="n">method</span><span class="o">=</span><span class="n">binaries</span>
+                                   <span class="o">-</span> <span class="n">version</span> <span class="p">[</span><span class="n">required</span><span class="p">]</span>
+                                       <span class="n">version</span><span class="o">=</span><span class="p">[</span><span class="n">v1</span><span class="mf">.0.20250506</span><span class="o">|</span><span class="n">v1</span><span class="mf">.0.20250505</span><span class="o">|</span><span class="n">v1</span><span class="mf">.0.20241211</span><span class="o">|</span><span class="n">v1</span><span class="mf">.0.20241208</span><span class="o">|</span><span class="n">v1</span><span class="mf">.0.20240202</span><span class="o">|</span><span class="n">v1</span><span class="mf">.0.20230411</span><span class="o">|</span><span class="n">v1</span><span class="mf">.0.20220720</span><span class="o">|</span><span class="n">v1</span><span class="mf">.0.20211006</span><span class="o">|</span><span class="n">v1</span><span class="mf">.0.20210317</span><span class="o">|</span><span class="n">v1</span><span class="mf">.0.20201102</span><span class="o">|</span><span class="n">v1</span><span class="mf">.0.20200331</span><span class="o">|</span><span class="n">v1</span><span class="mf">.0.20190902</span><span class="o">|</span><span class="n">latest</span><span class="p">]</span>
+                                   <span class="o">-</span> <span class="n">install_path</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">dcm2niix</span><span class="o">-</span><span class="p">{{</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="p">}}]</span>
+                                 <span class="n">options</span> <span class="k">for</span> <span class="n">method</span><span class="o">=</span><span class="n">source</span>
+                                   <span class="o">-</span> <span class="n">version</span> <span class="p">[</span><span class="n">required</span><span class="p">]</span>
+                                   <span class="o">-</span> <span class="n">repo</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">rordenlab</span><span class="o">/</span><span class="n">dcm2niix</span><span class="p">]</span>
+                                   <span class="o">-</span> <span class="n">install_path</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">dcm2niix</span><span class="o">-</span><span class="p">{{</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="p">}}]</span>
+                                   <span class="o">-</span> <span class="n">cmake_opts</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="p">]</span>
+                                   <span class="o">-</span> <span class="n">make_opts</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="o">-</span><span class="n">j1</span><span class="p">]</span>
+  <span class="o">--</span><span class="n">freesurfer</span> <span class="n">KEY</span><span class="o">=</span><span class="n">VALUE</span>       <span class="n">Add</span> <span class="n">freesurfer</span>
+                                 <span class="n">method</span><span class="o">=</span><span class="p">[</span><span class="n">binaries</span><span class="p">]</span>
+                                 <span class="n">options</span> <span class="k">for</span> <span class="n">method</span><span class="o">=</span><span class="n">binaries</span>
+                                   <span class="o">-</span> <span class="n">version</span> <span class="p">[</span><span class="n">required</span><span class="p">]</span>
+                                       <span class="n">version</span><span class="o">=</span><span class="p">[</span><span class="mf">7.4.1</span><span class="o">|</span><span class="mf">7.3.2</span><span class="o">|</span><span class="mf">7.3.1</span><span class="o">|</span><span class="mf">7.3.0</span><span class="o">|</span><span class="mf">7.2.0</span><span class="o">|</span><span class="mf">7.1.1</span><span class="o">-</span><span class="nb">min</span><span class="o">|</span><span class="mf">7.1.1</span><span class="o">|</span><span class="mf">7.1.0</span><span class="o">|</span><span class="mf">6.0.1</span><span class="o">|</span><span class="mf">6.0.0</span><span class="o">-</span><span class="nb">min</span><span class="o">|</span><span class="mf">6.0.0</span><span class="p">]</span>
+                                   <span class="o">-</span> <span class="n">install_path</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">freesurfer</span><span class="o">-</span><span class="p">{{</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="p">}}]</span>
+                                   <span class="o">-</span> <span class="n">exclude_paths</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="n">average</span><span class="o">/</span><span class="n">mult</span><span class="o">-</span><span class="n">comp</span><span class="o">-</span><span class="n">cor</span>
+                               <span class="n">lib</span><span class="o">/</span><span class="n">cuda</span>
+                               <span class="n">lib</span><span class="o">/</span><span class="n">qt</span>
+                               <span class="n">subjects</span><span class="o">/</span><span class="n">V1_average</span>
+                               <span class="n">subjects</span><span class="o">/</span><span class="n">bert</span>
+                               <span class="n">subjects</span><span class="o">/</span><span class="n">cvs_avg35</span>
+                               <span class="n">subjects</span><span class="o">/</span><span class="n">cvs_avg35_inMNI152</span>
+                               <span class="n">subjects</span><span class="o">/</span><span class="n">fsaverage3</span>
+                               <span class="n">subjects</span><span class="o">/</span><span class="n">fsaverage4</span>
+                               <span class="n">subjects</span><span class="o">/</span><span class="n">fsaverage5</span>
+                               <span class="n">subjects</span><span class="o">/</span><span class="n">fsaverage6</span>
+                               <span class="n">subjects</span><span class="o">/</span><span class="n">fsaverage_sym</span>
+                               <span class="n">trctrain</span>
+                               <span class="p">]</span>
+  <span class="o">--</span><span class="n">fsl</span> <span class="n">KEY</span><span class="o">=</span><span class="n">VALUE</span>              <span class="n">Add</span> <span class="n">fsl</span>
+                                 <span class="n">method</span><span class="o">=</span><span class="p">[</span><span class="n">binaries</span><span class="p">]</span>
+                                 <span class="n">options</span> <span class="k">for</span> <span class="n">method</span><span class="o">=</span><span class="n">binaries</span>
+                                   <span class="o">-</span> <span class="n">version</span> <span class="p">[</span><span class="n">required</span><span class="p">]</span>
+                                       <span class="n">version</span><span class="o">=</span><span class="p">[</span><span class="mf">6.0.7.8</span><span class="o">|</span><span class="mf">6.0.7.4</span><span class="o">|</span><span class="mf">6.0.7.19</span><span class="o">|</span><span class="mf">6.0.7.18</span><span class="o">|</span><span class="mf">6.0.7.16</span><span class="o">|</span><span class="mf">6.0.7.14</span><span class="o">|</span><span class="mf">6.0.7.1</span><span class="o">|</span><span class="mf">6.0.6.4</span><span class="o">|</span><span class="mf">6.0.6.3</span><span class="o">|</span><span class="mf">6.0.6.2</span><span class="o">|</span><span class="mf">6.0.6.1</span><span class="o">|</span><span class="mf">6.0.6</span><span class="o">|</span><span class="mf">6.0.5.2</span><span class="o">|</span><span class="mf">6.0.5.1</span><span class="o">|</span><span class="mf">6.0.5</span><span class="o">|</span><span class="mf">6.0.4</span><span class="o">|</span><span class="mf">6.0.3</span><span class="o">|</span><span class="mf">6.0.2</span><span class="o">|</span><span class="mf">6.0.1</span><span class="o">|</span><span class="mf">6.0.0</span><span class="o">|</span><span class="mf">5.0.9</span><span class="o">|</span><span class="mf">5.0.8</span><span class="o">|</span><span class="mf">5.0.11</span><span class="o">|</span><span class="mf">5.0.10</span><span class="p">]</span>
+                                   <span class="o">-</span> <span class="n">install_path</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">fsl</span><span class="o">-</span><span class="p">{{</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="p">}}]</span>
+                                   <span class="o">-</span> <span class="n">exclude_paths</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="p">]</span>
+                               <span class="o">**</span><span class="n">Note</span><span class="o">**</span><span class="p">:</span> <span class="n">FSL</span> <span class="ow">is</span> <span class="n">non</span><span class="o">-</span><span class="n">free</span><span class="o">.</span> <span class="n">If</span> <span class="n">you</span> <span class="n">are</span> <span class="n">considering</span> <span class="n">commercial</span> <span class="n">use</span> <span class="n">of</span> <span class="n">FSL</span><span class="p">,</span> <span class="n">please</span> <span class="n">consult</span> <span class="n">the</span> <span class="n">relevant</span> <span class="n">license</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">.</span>
+  <span class="o">--</span><span class="n">jq</span> <span class="n">KEY</span><span class="o">=</span><span class="n">VALUE</span>               <span class="n">Add</span> <span class="n">jq</span>
+                                 <span class="n">method</span><span class="o">=</span><span class="p">[</span><span class="n">binaries</span><span class="o">|</span><span class="n">source</span><span class="p">]</span>
+                                 <span class="n">options</span> <span class="k">for</span> <span class="n">method</span><span class="o">=</span><span class="n">binaries</span>
+                                   <span class="o">-</span> <span class="n">version</span> <span class="p">[</span><span class="n">required</span><span class="p">]</span>
+                                       <span class="n">version</span><span class="o">=</span><span class="p">[</span><span class="mf">1.7.1</span><span class="o">|</span><span class="mf">1.7</span><span class="o">|</span><span class="mf">1.6</span><span class="p">]</span>
+                                 <span class="n">options</span> <span class="k">for</span> <span class="n">method</span><span class="o">=</span><span class="n">source</span>
+                                   <span class="o">-</span> <span class="n">version</span> <span class="p">[</span><span class="n">required</span><span class="p">]</span>
+  <span class="o">--</span><span class="n">matlabmcr</span> <span class="n">KEY</span><span class="o">=</span><span class="n">VALUE</span>        <span class="n">Add</span> <span class="n">matlabmcr</span>
+                                 <span class="n">method</span><span class="o">=</span><span class="p">[</span><span class="n">binaries</span><span class="p">]</span>
+                                 <span class="n">options</span> <span class="k">for</span> <span class="n">method</span><span class="o">=</span><span class="n">binaries</span>
+                                   <span class="o">-</span> <span class="n">version</span> <span class="p">[</span><span class="n">required</span><span class="p">]</span>
+                                       <span class="n">version</span><span class="o">=</span><span class="p">[</span><span class="mi">2023</span><span class="n">b</span><span class="o">|</span><span class="mi">2023</span><span class="n">a</span><span class="o">|</span><span class="mi">2022</span><span class="n">b</span><span class="o">|</span><span class="mi">2022</span><span class="n">a</span><span class="o">|</span><span class="mi">2021</span><span class="n">b</span><span class="o">|</span><span class="mi">2021</span><span class="n">a</span><span class="o">|</span><span class="mi">2020</span><span class="n">b</span><span class="o">|</span><span class="mi">2020</span><span class="n">a</span><span class="o">|</span><span class="mi">2019</span><span class="n">b</span><span class="o">|</span><span class="mi">2019</span><span class="n">a</span><span class="o">|</span><span class="mi">2018</span><span class="n">b</span><span class="o">|</span><span class="mi">2018</span><span class="n">a</span><span class="o">|</span><span class="mi">2017</span><span class="n">b</span><span class="o">|</span><span class="mi">2017</span><span class="n">a</span><span class="o">|</span><span class="mi">2016</span><span class="n">b</span><span class="o">|</span><span class="mi">2016</span><span class="n">a</span><span class="o">|</span><span class="mi">2015</span><span class="n">b</span><span class="o">|</span><span class="mi">2015</span><span class="n">aSP1</span><span class="o">|</span><span class="mi">2015</span><span class="n">a</span><span class="o">|</span><span class="mi">2014</span><span class="n">b</span><span class="o">|</span><span class="mi">2014</span><span class="n">a</span><span class="o">|</span><span class="mi">2013</span><span class="n">b</span><span class="o">|</span><span class="mi">2013</span><span class="n">a</span><span class="o">|</span><span class="mi">2012</span><span class="n">b</span><span class="o">|</span><span class="mi">2012</span><span class="n">a</span><span class="o">|</span><span class="mi">2010</span><span class="n">a</span><span class="p">]</span>
+                                   <span class="o">-</span> <span class="n">curl_opts</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="p">]</span>
+                                   <span class="o">-</span> <span class="n">install_path</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">MCR</span><span class="o">-</span><span class="p">{{</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="p">}}]</span>
+  <span class="o">--</span><span class="n">minc</span> <span class="n">KEY</span><span class="o">=</span><span class="n">VALUE</span>             <span class="n">Add</span> <span class="n">minc</span>
+                                 <span class="n">method</span><span class="o">=</span><span class="p">[</span><span class="n">binaries</span><span class="p">]</span>
+                                 <span class="n">options</span> <span class="k">for</span> <span class="n">method</span><span class="o">=</span><span class="n">binaries</span>
+                                   <span class="o">-</span> <span class="n">version</span> <span class="p">[</span><span class="n">required</span><span class="p">]</span>
+                                       <span class="n">version</span><span class="o">=</span><span class="p">[</span><span class="mf">1.9.18</span><span class="o">|</span><span class="mf">1.9.17</span><span class="o">|</span><span class="mf">1.9.16</span><span class="o">|</span><span class="mf">1.9.15</span><span class="p">]</span>
+                                   <span class="o">-</span> <span class="n">install_path</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">minc</span><span class="o">-</span><span class="p">{{</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="p">}}]</span>
+  <span class="o">--</span><span class="n">miniconda</span> <span class="n">KEY</span><span class="o">=</span><span class="n">VALUE</span>        <span class="n">Add</span> <span class="n">miniconda</span>
+                                 <span class="n">method</span><span class="o">=</span><span class="p">[</span><span class="n">binaries</span><span class="p">]</span>
+                                 <span class="n">options</span> <span class="k">for</span> <span class="n">method</span><span class="o">=</span><span class="n">binaries</span>
+                                   <span class="o">-</span> <span class="n">version</span> <span class="p">[</span><span class="n">required</span><span class="p">]</span>
+                                       <span class="n">version</span><span class="o">=</span><span class="p">[</span><span class="n">latest</span><span class="o">|*</span><span class="p">]</span>
+                                   <span class="o">-</span> <span class="n">install_path</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">miniconda</span><span class="o">-</span><span class="p">{{</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="p">}}]</span>
+                                   <span class="o">-</span> <span class="n">installed</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="n">false</span><span class="p">]</span>
+                                   <span class="o">-</span> <span class="n">env_name</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="n">base</span><span class="p">]</span>
+                                   <span class="o">-</span> <span class="n">env_exists</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="n">true</span><span class="p">]</span>
+                                   <span class="o">-</span> <span class="n">conda_install</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="p">]</span>
+                                   <span class="o">-</span> <span class="n">pip_install</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="p">]</span>
+                                   <span class="o">-</span> <span class="n">conda_opts</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="p">]</span>
+                                   <span class="o">-</span> <span class="n">pip_opts</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="p">]</span>
+                                   <span class="o">-</span> <span class="n">yaml_file</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="p">]</span>
+                                   <span class="o">-</span> <span class="n">mamba</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="n">false</span><span class="p">]</span>
+                                   <span class="o">-</span> <span class="n">arch</span> <span class="p">[</span><span class="n">default</span><span class="p">:</span> <span class="n">x86_64</span><span class="p">]</span>
   <span class="o">--</span><span class="n">mricron</span> <span class="n">KEY</span><span class="o">=</span><span class="n">VALUE</span>          <span class="n">Add</span> <span class="n">mricron</span>
                                  <span class="n">method</span><span class="o">=</span><span class="p">[</span><span class="n">binaries</span><span class="p">]</span>
                                  <span class="n">options</span> <span class="k">for</span> <span class="n">method</span><span class="o">=</span><span class="n">binaries</span>
@@ -866,7 +848,7 @@ Most of the arguments for these subcommands are identical, but please check the 
 
   Examples
   --------
-  docker run --rm -itd --name to-minify python:3.9-slim bash
+  docker run --rm -itd --name to-minify python:3.10-slim bash
   neurodocker minify \
       --container to-minify \
       --dir /usr/local \
@@ -919,7 +901,8 @@ Options:
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
   <div class="sidebar-secondary-item">
@@ -959,13 +942,13 @@ Options:
 </div>
 
   <div class="sidebar-secondary-item">
-
-  <div class="tocsection sourcelink">
-    <a href="../_sources/user_guide/cli.rst.txt">
-      <i class="fa-solid fa-file-lines"></i> Show Source
-    </a>
-  </div>
-</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/user_guide/cli.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
 
 </div></div>
               
@@ -980,8 +963,8 @@ Options:
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -992,7 +975,7 @@ Options:
 
   <p class="copyright">
     
-      © Copyright 2017-2023, Neurodocker Developers.
+      © Copyright 2017-2025, Neurodocker Developers.
       <br/>
     
   </p>
@@ -1014,7 +997,8 @@ Options:
       
         <div class="footer-item">
 <p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.4.
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
 </p></div>
       
     </div>
